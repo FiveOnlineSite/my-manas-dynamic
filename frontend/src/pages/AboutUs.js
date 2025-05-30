@@ -24,6 +24,7 @@ const AboutUs = () => {
         getRequest("/about/our-inspiration"),
         getRequest("/about/future-leaders"),
         getRequest("/masterquote"),
+        getRequest("/masterbanner"),
       ]);
       console.log(responses, "responsesfefe");
 
@@ -41,6 +42,10 @@ const AboutUs = () => {
         masterquote:
           responses[3].status === "fulfilled"
             ? responses[3].value.data[0]
+            : null,
+        masterbanner:
+          responses[4].status === "fulfilled"
+            ? responses[4].value.data[6]
             : null,
       };
 
@@ -68,12 +73,12 @@ const AboutUs = () => {
       <section className='about-banner'>
         <div className='container-fluid'>
           <img
-            src='/images/banner/AboutUs-01.jpeg'
-            alt='about-banner'
+            src={OtherData.masterbanner?.image?.url}
+            alt={OtherData.masterbanner?.image?.altText}
             className='about-img'
           />
           <div className='about-banner-text banner-text'>
-            <h1 className='banner-title'>Academic Excellence Within Reach</h1>
+            <h1 className='banner-title'>{OtherData?.masterbanner?.title}</h1>
           </div>
         </div>
       </section>
