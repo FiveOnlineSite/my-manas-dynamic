@@ -1,1 +1,1 @@
-# my-manas-dynamic
+# manas-foundation
