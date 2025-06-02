@@ -2400,3 +2400,8 @@ button.slick-next {
     padding: 0;
   }
 }
+
+.inspiration-para p {
+  margin: 0px;
+  padding: 0px;
+}
