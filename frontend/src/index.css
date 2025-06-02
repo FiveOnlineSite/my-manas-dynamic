@@ -986,6 +986,10 @@ nav .navbar-nav .nav-item a,
   justify-content: start;
 }
 
+.value-title .value-description p {
+  padding-top: 0.5rem !important;
+}
+
 .single-value {
   padding: 30px 10px;
 }

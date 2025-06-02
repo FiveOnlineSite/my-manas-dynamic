@@ -363,6 +363,7 @@ const Scholarship = () => {
                       <img src='/images/icons/Group 8339.png' alt='value-img' />
                       <p className='ps-3 pt-2'>
                         <div
+                          className='value-description'
                           dangerouslySetInnerHTML={{
                             __html: OtherData?.notification?.contents?.[0],
                           }}
@@ -377,6 +378,7 @@ const Scholarship = () => {
                       <img src='/images/icons/Group 8339.png' alt='value-img' />
                       <p className='ps-3 pt-2'>
                         <div
+                          className='value-description'
                           dangerouslySetInnerHTML={{
                             __html: OtherData?.notification?.contents?.[1],
                           }}
@@ -392,6 +394,7 @@ const Scholarship = () => {
                       <img src='/images/icons/Group 8339.png' alt='value-img' />
                       <p className='ps-3 pt-2'>
                         <div
+                          className='value-description'
                           dangerouslySetInnerHTML={{
                             __html: OtherData?.notification?.contents?.[2],
                           }}
@@ -406,6 +409,7 @@ const Scholarship = () => {
                       <img src='/images/icons/Group 8339.png' alt='value-img' />
                       <p className='ps-3 pt-2'>
                         <div
+                          className='value-description'
                           dangerouslySetInnerHTML={{
                             __html: OtherData?.notification?.contents?.[3],
                           }}
@@ -420,6 +424,7 @@ const Scholarship = () => {
                       <img src='/images/icons/Group 8339.png' alt='value-img' />
                       <p className='ps-3 pt-2'>
                         <div
+                          className='value-description'
                           dangerouslySetInnerHTML={{
                             __html: OtherData?.notification?.contents?.[4],
                           }}
@@ -434,6 +439,7 @@ const Scholarship = () => {
                       <img src='/images/icons/Group 8339.png' alt='value-img' />
                       <p className='ps-3 pt-2'>
                         <div
+                          className='value-description'
                           dangerouslySetInnerHTML={{
                             __html: OtherData?.notification?.contents?.[5],
                           }}
