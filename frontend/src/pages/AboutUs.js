@@ -299,11 +299,13 @@ const AboutUs = () => {
                       />
                       <h5>{OtherData?.ourvalues?.values?.[5]?.title}</h5>
                     </div>
+                    <p>
                     <div
                       dangerouslySetInnerHTML={{
                         __html: OtherData?.ourvalues?.values?.[5]?.description,
                       }}
                     />
+                    </p>
                   </div>
                 </div>
               </div>

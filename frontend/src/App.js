@@ -19,9 +19,9 @@ function App() {
     AOS.init({ duration: 1500 });
   }, []);
 
-  useEffect(() => {
-    new WOW.WOW().init();
-  }, []);
+  // useEffect(() => {
+  //   new WOW.WOW().init();
+  // }, []);
 
   return (
     <Router>
