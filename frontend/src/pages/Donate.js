@@ -28,6 +28,7 @@ const Donate = () => {
         getRequest("/donate/achievements"),
         getRequest("/testimonials"),
         getRequest("/masterbanner"),
+        getRequest("/masterquote")
       ]);
       console.log(responses, "responsesfefe");
 
@@ -45,6 +46,10 @@ const Donate = () => {
         masterbanner:
           responses[3].status === "fulfilled"
             ? responses[3].value.data[5]
+            : null,
+        masterquote:
+          responses[4].status === "fulfilled"
+            ? responses[4].value.data[0]
             : null,
       };
 
@@ -101,7 +106,7 @@ const Donate = () => {
       </section>
 
       <section className='half-img-section about-half-img'>
-        <Difference />
+        <Difference  masterquote={OtherData?.masterquote || []}/>
       </section>
       <section className='bg-img-row'>
         <div className='container'>
