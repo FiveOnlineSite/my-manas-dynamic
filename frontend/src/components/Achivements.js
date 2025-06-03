@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Achivements = () => {
+const Achivements = ({achievements}) => {
   return (
     <section className='achivements-section'>
       <div className='container'>
@@ -9,107 +9,139 @@ const Achivements = () => {
           <div className='col-lg-3'>
             {/* <h6 className="section-subtitle">ACHIEVEMENTS</h6> */}
 
-            <h2 className='section-title'>Achievements</h2>
+            <h2 className='section-title'>{achievements?.title}</h2>
           </div>
           <div className='col-lg-9'>
             <div className='row'>
               <div className='col-lg-6 mt-lg-0 mt-5'>
                 <div className='achivements-div'>
                   <img
-                    src='/images/banner/DSC04685.jpg'
+                     src={
+                          achievements?.items?.[0]?.image?.url
+                        }
                     alt='achivement-img'
                     className='img-rep'
                   />
                   <h4 className='banner-subtitle small-line-height text-start mt-4'>
-                    Well-rounded
+                   {achievements?.items?.[0]?.title}
                   </h4>
                   <p className='paragraph bridge-para'>
-                    Our emphasis is on well-rounded education that involves
-                    physical, mental, moral, and spiritual aspects of learning,
-                    which improves our students’ critical thinking, athletic
-                    ability, and self-discipline.
+                  <div
+                     dangerouslySetInnerHTML={{
+                       __html:
+                          achievements?.items?.[0]
+                          ?.description,
+                          }}
+                        />
                   </p>
                 </div>
               </div>
               <div className='col-lg-6 mt-lg-0 mt-5'>
                 <div className='achivements-div'>
-                  <img src='/images/banner/DSC04762.jpg' alt='achivement-img' />
+                  <img  
+                      src={
+                          achievements?.items?.[1]?.image?.url
+                        } 
+                        alt='achivement-img' />
                   <h4 className='banner-subtitle small-line-height text-start mt-4'>
-                    Platform for future
+                   {achievements?.items?.[1]?.title}
                   </h4>
                   <p className='paragraph bridge-para'>
-                    Each child at Manas Academy is empowered to form opinions
-                    and articulate them, creating a generation that is not
-                    afraid to chase their dreams.
+                   <div
+                     dangerouslySetInnerHTML={{
+                       __html:
+                          achievements?.items?.[1]
+                          ?.description,
+                          }}
+                        />
                   </p>
                 </div>
               </div>
               <div className='col-lg-6 mt-5'>
                 <div className='achivements-div'>
                   <img
-                    src='/images/banner/Adobe Express - file.jpg'
+                   src={
+                          achievements?.items?.[2]?.image?.url
+                        } 
                     alt='achivement-img'
                   />
                   <h4 className='banner-subtitle small-line-height text-start mt-4'>
-                    Infrastructure
+                   {achievements?.items?.[2]?.title}
                   </h4>
                   <p className='paragraph bridge-para'>
-                    The school is housed in a serene and eco-friendly campus
-                    with solar-power, with all the facilities required for a
-                    conducive learning environment: spacious classrooms, six
-                    outdoor playgrounds, two indoor playgrounds, well equipped
-                    labs and fine-arts studios.
+                   <div
+                     dangerouslySetInnerHTML={{
+                       __html:
+                          achievements?.items?.[2]
+                          ?.description,
+                          }}
+                        />
                   </p>
                 </div>
               </div>
               <div className='col-lg-6 mt-5'>
                 <div className='achivements-div'>
                   <img
-                    src='/images/banner/Students Working in ChemLab.jpeg'
+                   src={
+                          achievements?.items?.[3]?.image?.url
+                        } 
                     alt='achivement-img'
                   />
                   <h4 className='banner-subtitle small-line-height text-start mt-4'>
-                    STEM Program
+                   {achievements?.items?.[3]?.title}
                   </h4>
                   <p className='paragraph bridge-para'>
-                    Apply math and science to solve an engineering problem using
-                    technology. Every child is given an opportunity to think,
-                    learn, build and act like an engineer.
-                    <br />
-                    <strong>
-                      The STEM program at Manas Academy is run by experienced
-                      engineers.
-                    </strong>
+                   <div
+                     dangerouslySetInnerHTML={{
+                       __html:
+                          achievements?.items?.[3]
+                          ?.description,
+                          }}
+                        />
                   </p>
                 </div>
               </div>
               <div className='col-lg-6 mt-5'>
                 <div className='achivements-div'>
                   <img
-                    src='/images/banner/Group-8263.png'
+                   src={
+                          achievements?.items?.[4]?.image?.url
+                        } 
                     alt='achivement-img'
                   />
                   <h4 className='banner-subtitle small-line-height text-start mt-4'>
-                    Google G Suite for Education
+                   {achievements?.items?.[4]?.title}
                   </h4>
                   <p className='paragraph bridge-para'>
-                    Google recognized and supported institution for students and
-                    staff to use G Suite for Education for free.
+                  <div
+                     dangerouslySetInnerHTML={{
+                       __html:
+                          achievements?.items?.[4]
+                          ?.description,
+                          }}
+                        />
                   </p>
                 </div>
               </div>
               <div className='col-lg-6 mt-5'>
                 <div className='achivements-div'>
                   <img
-                    src='/images/banner/Dance Team02.jpeg'
+                   src={
+                          achievements?.items?.[5]?.image?.url
+                        } 
                     alt='achivement-img'
                   />
                   <h4 className='banner-subtitle small-line-height text-start mt-4'>
-                    Competitions
+                   {achievements?.items?.[5]?.title}
                   </h4>
                   <p className='paragraph bridge-para'>
-                    Our students participate in national and international
-                    academic competitions and have won several medals.
+                    <div
+                     dangerouslySetInnerHTML={{
+                       __html:
+                          achievements?.items?.[5]
+                          ?.description,
+                          }}
+                        />
                   </p>
                 </div>
               </div>

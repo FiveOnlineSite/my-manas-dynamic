@@ -41,7 +41,7 @@ const Academy = () => {
             ? responses[0].value.data[0]
             : null,
         achievements:
-          responses[1].status === "fulfilled" ? responses[1].value.data : null,
+          responses[1].status === "fulfilled" ? responses[1].value.data.data[0] : null,
         gradelevels:
           responses[2].status === "fulfilled" ? responses[2].value.data : null,
         howtoapply:
@@ -387,7 +387,7 @@ const Academy = () => {
         </div>
       </section>
 
-      <Achivements />
+      <Achivements achievements={OtherData?.achievements || []} />
 
       <section className='half-img-section about-half-img d-flex align-items-center'>
         <div className='container'>
