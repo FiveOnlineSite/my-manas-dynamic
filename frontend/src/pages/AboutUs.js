@@ -367,12 +367,12 @@ const AboutUs = () => {
             >
               <div className='bridging-img'>
                 <img
-                  src={OtherData?.futureleaders?.[0]?.image?.url}
-                  alt={OtherData?.futureleaders?.[0]?.image?.altText}
+                 src='/images/banner/Vector 6.png'
                   className='bridging-img1'
                 />
                 <div className='bridging-img2'>
-                  <img src='/images/banner/A7402707 1.png' alt='briding-img' />
+                  <img src={OtherData?.futureleaders?.image?.url}
+                   alt={OtherData?.futureleaders?.image?.altText} />
                 </div>
 
                 <img
