@@ -661,7 +661,7 @@ const Academy = () => {
       </section>
 
       <section id='contact-section-one'>
-        <ReachOut />
+        <ReachOut originPage="academy" />
       </section>
     </Layout>
   );

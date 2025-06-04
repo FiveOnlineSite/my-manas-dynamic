@@ -187,7 +187,7 @@ const Scope = () => {
 
       <Difference masterquote={OtherData?.masterquote || []} />
 
-      <ReachOut />
+      <ReachOut originPage="scope" />
     </Layout>
   );
 };

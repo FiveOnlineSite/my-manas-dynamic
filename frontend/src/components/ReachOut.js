@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import { Modal } from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -7,7 +7,7 @@ import { postFormData } from "../api/api";
 
 const SITE_KEY = process.env.REACT_APP_CAPTCHA_SITE_KEY;
 
-const ReachOut = () => {
+const ReachOut = ({ originPage }) => {
   const formRef = useRef();
 
   const captchaRef = useRef(null);
@@ -52,6 +52,26 @@ const ReachOut = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const location = useLocation();
+
+  const allowedPages = [
+  "home",
+  "about",
+  "scope",
+  "donate",
+  "scholarship",
+  "academy",
+  "contact",
+  "vidhyavanam",
+  "news",
+];
+let pageName = originPage?.toLowerCase();
+
+if (!allowedPages.includes(pageName)) {
+  const pathSegment = location.pathname.split("/")[1].toLowerCase();
+  pageName = allowedPages.includes(pathSegment) ? pathSegment : "home";
+}
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,7 +109,7 @@ const ReachOut = () => {
       payload.append("email", formData.email);
       payload.append("inquiryType", formData.inquiry);
       payload.append("message", formData.message);
-      payload.append("originPage", "home");
+      payload.append("originPage", pageName);
 
       await postFormData("/mastercontact", payload);
 

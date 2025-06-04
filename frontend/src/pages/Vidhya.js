@@ -554,7 +554,7 @@ const Vidhya = () => {
         </section>
 
         <section id='contact-section-one'>
-          <ReachOut />
+          <ReachOut originPage="vidhyavanam" />
         </section>
       </Layout>
     </>
