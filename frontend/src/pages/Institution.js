@@ -65,8 +65,8 @@ const Institution = () => {
       <section className='about-banner'>
         <div className='container-fluid'>
           <img
-            src='/images/banner/KG Graduation 06.jpg'
-            alt='scope-banner'
+          src={OtherData?.masterbanner?.[1]?.image?.url}
+              alt={OtherData?.masterbanner?.[1]?.image?.altText}
             className='about-img'
           />
           <div className='about-banner-text'>
