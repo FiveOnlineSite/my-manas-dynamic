@@ -41,7 +41,7 @@ const Home = () => {
             : null,
         testimonials:
           responses[3].status === "fulfilled"
-            ? responses[3].value.data[0]
+            ? responses[3].value.data
             : null,
       };
 

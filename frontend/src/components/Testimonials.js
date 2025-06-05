@@ -34,10 +34,10 @@ const Testimonials = ({testimonials}) => {
                         </p>
 
                         <div className='testimonial-name '>
-                          <h6>{testimonials?.name}</h6>
-                          <p className='mb-1'>{testimonials?.designation}</p>
+                          <h6>{testimonials?.[0]?.name}</h6>
+                          <p className='mb-1'>{testimonials?.[0]?.designation}</p>
 
-                          <p>{testimonials?.location}</p>
+                          <p>{testimonials?.[0]?.location}</p>
                         </div>
                       </div>
                       <div
@@ -46,8 +46,8 @@ const Testimonials = ({testimonials}) => {
                         data-aos-duration='1500'
                       >
                         <img
-                          src={testimonials?.image?.url}
-                          alt={testimonials?.image?.altText}
+                          src={testimonials?.[0]?.image?.url}
+                          alt={testimonials?.[0]?.image?.altText}
                         />
                       </div>
                     </div>
@@ -89,16 +89,16 @@ const Testimonials = ({testimonials}) => {
                         </p>
 
                         <div className='testimonial-name '>
-                          <h6>Dr. Ronald Vardy Ph.D</h6>
-                          <p className='mb-1'> Professor</p>
+                          <h6>{testimonials?.[1]?.name}</h6>
+                          <p className='mb-1'> {testimonials?.[1]?.designation}</p>
 
-                          <p> University of Houston</p>
+                          <p> {testimonials?.[1]?.location}</p>
                         </div>
                       </div>
                       <div className='testimonial-img col-lg-5 order-lg-2 order-1'>
                         <img
-                          src='/images/testimonials/Mask group (12).png'
-                          alt='member'
+                          src={testimonials?.[1]?.image?.url}
+                          alt={testimonials?.[1]?.image?.altText}
                         />
                       </div>
                     </div>
@@ -135,15 +135,15 @@ const Testimonials = ({testimonials}) => {
                         </p>
 
                         <div className='testimonial-name '>
-                          <h6>Dr. Tom Wymore</h6>
-                          <p className='mb-1'>Leadership Coach and Mentor</p>
-                          <p> Eagles’ Wings Leadership Coaching</p>
+                          <h6>{testimonials?.[2]?.name}</h6>
+                          <p className='mb-1'>{testimonials?.[2]?.designation}</p>
+                          <p> {testimonials?.[2]?.location}</p>
                         </div>
                       </div>
                       <div className='testimonial-img col-lg-5 order-lg-2 order-1'>
                         <img
-                          src='/images/testimonials/Mask group (10).png'
-                          alt='member'
+                          src={testimonials?.[2]?.image?.url}
+                          alt={testimonials?.[2]?.image?.altText}
                         />
                       </div>
                     </div>
@@ -183,15 +183,15 @@ const Testimonials = ({testimonials}) => {
                         </p>
 
                         <div className='testimonial-name '>
-                          <h6>Anthony G. Petrello</h6>
-                          <p className='mb-1'> Chief Executive Officer</p>
-                          <p> Nabors Industries Ltd</p>
+                          <h6>{testimonials?.[3]?.name}</h6>
+                          <p className='mb-1'> {testimonials?.[3]?.designation}</p>
+                          <p>{testimonials?.[3]?.location}</p>
                         </div>
                       </div>
                       <div className='testimonial-img col-lg-5 order-lg-2 order-1'>
-                        <img
-                          src='/images/testimonials/Mask group (13).png'
-                          alt='member'
+                         <img
+                          src={testimonials?.[3]?.image?.url}
+                          alt={testimonials?.[3]?.image?.altText}
                         />
                       </div>
                     </div>
@@ -210,7 +210,10 @@ const Testimonials = ({testimonials}) => {
                     data-bs-toggle='tab'
                     aria-controls='member1'
                   >
-                    <img src='/images/testimonials/jason.png' alt='member' />
+                     <img
+                          src={testimonials?.[0]?.image?.url}
+                          alt={testimonials?.[0]?.image?.altText}
+                        />
                   </a>
                 </li>
                 <li className='nav-item'>
@@ -222,9 +225,9 @@ const Testimonials = ({testimonials}) => {
                     aria-controls='member2'
                   >
                     <img
-                      src='/images/testimonials/Group-18887.png'
-                      alt='member'
-                    />
+                          src={testimonials?.[1]?.image?.url}
+                          alt={testimonials?.[1]?.image?.altText}
+                        />
                   </a>
                 </li>
                 <li className='nav-item'>
@@ -235,10 +238,10 @@ const Testimonials = ({testimonials}) => {
                     data-bs-toggle='tab'
                     aria-controls='member3'
                   >
-                    <img
-                      src='/images/testimonials/Mask-Group-27.png'
-                      alt='member'
-                    />
+                     <img
+                          src={testimonials?.[2]?.image?.url}
+                          alt={testimonials?.[2]?.image?.altText}
+                        />
                   </a>
                 </li>
                 <li className='nav-item'>
@@ -250,9 +253,9 @@ const Testimonials = ({testimonials}) => {
                     aria-controls='member4'
                   >
                     <img
-                      src='/images/testimonials/Group-18886.png'
-                      alt='member'
-                    />
+                          src={testimonials?.[3]?.image?.url}
+                          alt={testimonials?.[3]?.image?.altText}
+                        />
                   </a>
                 </li>
               </ul>
