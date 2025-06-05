@@ -41,7 +41,7 @@ const Donate = () => {
           responses[1].status === "fulfilled" ? responses[1].value.data : null,
         testimonials:
           responses[2].status === "fulfilled"
-            ? responses[2].value.data[0]
+            ? responses[2].value.data
             : null,
         masterbanner:
           responses[3].status === "fulfilled"

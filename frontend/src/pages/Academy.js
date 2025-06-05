@@ -52,7 +52,7 @@ const Academy = () => {
           responses[5].status === "fulfilled" ? responses[5].value.data : null,
         testimonials:
           responses[6].status === "fulfilled"
-            ? responses[6].value.data[0]
+            ? responses[6].value.data
             : null,
         masterbanner:
           responses[7].status === "fulfilled"
