@@ -116,8 +116,8 @@ const News = () => {
             <div className='col-lg-4'>
               <NavLink to='/news-detail'>
                 <img
-                  src='/images/banner/ram-mandir-img.png'
-                  alt='news'
+                  src={data?.image?.url}
+                  alt={data?.image?.altText}
                   className='w-100'
                 />
               </NavLink>
@@ -125,11 +125,12 @@ const News = () => {
             <div className='col-lg-6 ps-lg-5 ps-auto'>
               <div className='latest-news-content'>
                 <div className='latest-news-time-div'>
-                  <h6>News</h6> <span></span> <p> 15 minutes ago</p>
+                  <h6>{data?.type?.charAt(0).toUpperCase() + data?.type?.slice(1).toLowerCase()}
+                  </h6> <span></span> <p> 15 minutes ago</p>
                 </div>
                 <NavLink to='/news-detail'>
                   <div className='latest-news-title'>
-                    <h2>Ram Mandir</h2>
+                    <h2> {data?.title}</h2>
                   </div>
                 </NavLink>
               </div>
