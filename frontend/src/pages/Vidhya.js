@@ -31,6 +31,7 @@ const Vidhya = () => {
         getRequest("/vidhyavanam/contact-info"),
         getRequest("/testimonials"),
         getRequest("/masterbanner"),
+        getRequest("/masterquote"),
       ]);
       console.log(responses, "responsesfefe");
 
@@ -56,6 +57,10 @@ const Vidhya = () => {
         masterbanner:
           responses[7].status === "fulfilled"
             ? responses[7].value.data[0]
+            : null,
+        masterquote:
+          responses[8].status === "fulfilled"
+            ? responses[8].value.data
             : null,
       };
 
@@ -309,8 +314,7 @@ const Vidhya = () => {
                     {/* <h6 className="section-subtitle">CURRICULUM</h6> */}
 
                     <h2 className='section-title text-center'>
-                      An integrated Curriculum at each grade level that prepares
-                      them for life.
+                     {OtherData?.masterquote?.[3]?.quote}
                     </h2>
                   </div>
 
@@ -330,9 +334,8 @@ const Vidhya = () => {
           </div>
         </section>
 
-        <section className='bg-img-row'>
+        {/* <section className='bg-img-row'>
           <div className='container'>
-            {/* <h6 className="section-subtitle">lorem ipsum set</h6> */}
 
             <h2 className='section-title'>Grade levels offered</h2>
 
@@ -438,7 +441,50 @@ const Vidhya = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
+
+         <section className='bg-img-row'>
+        <div className='container'>
+          <h2 className='section-title'>Grade levels offered</h2>
+
+          <div className='values-div grades-div'>
+            <div className='col-lg-12'>
+              <div className='row'>
+                {OtherData?.gradelevels?.map((item, index) => (
+                  <div
+                    className={`col-xl-3 col-lg-6 col-md-6 ${index >= 2 ? "mt-xl-0 mt-5" : ""
+                      }`}
+                    key={index}
+                  >
+                    <div className='single-value sing-box-one'>
+                      <div className='d-flex flex-column'>
+                        <div>
+                          <img
+                            src={item.icon?.url}
+                            alt={item.icon?.altText}
+                          />
+                        </div>
+
+                        <h2 className='section-title pt-3 pb-0 grade-title'>
+                          {item.title}
+                        </h2>
+                      </div>
+
+                      <p className='pt-1 grade-para'>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: item.description,
+                          }}
+                        />
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
         <section className='apply-section'>
           <div className='container'>

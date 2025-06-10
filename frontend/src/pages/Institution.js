@@ -24,7 +24,7 @@ const Institution = () => {
         getRequest("/institutions/our-model"),
         getRequest("/institutions/our-institutions"),
         getRequest("/masterbanner"),
-        getRequest("/masterquote"),
+        getRequest("/masterdonate"),
       ]);
       console.log(responses, "responsesfefe");
 
@@ -37,7 +37,7 @@ const Institution = () => {
           responses[1].status === "fulfilled" ? responses[1].value.data : null,
         masterbanner:
           responses[2].status === "fulfilled" ? responses[2].value.data : null,
-        masterquote:
+        masterdonate:
           responses[3].status === "fulfilled" ? responses[3].value.data[0] : null,
       };
 
@@ -291,7 +291,7 @@ const Institution = () => {
         </div>
       </section>
 
-      <Difference masterquote={OtherData?.masterquote || []} />
+      <Difference masterdonate={OtherData?.masterdonate || []} />
     </Layout>
   );
 };

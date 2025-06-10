@@ -15,7 +15,7 @@ const Home = () => {
       const result = await getRequest("/home/banner");
 
       setData(result.data[0]);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const fetchOtherData = async () => {
@@ -25,6 +25,7 @@ const Home = () => {
         getRequest("/home/gallery"),
         getRequest("/home/mission"),
         getRequest("/testimonials"),
+        getRequest("/masterquote"),
       ]);
       console.log(responses, "responsesfefe");
 
@@ -42,6 +43,10 @@ const Home = () => {
         testimonials:
           responses[3].status === "fulfilled"
             ? responses[3].value.data
+            : null,
+        masterquote:
+          responses[4].status === "fulfilled"
+            ? responses[4].value.data
             : null,
       };
 
@@ -77,9 +82,10 @@ const Home = () => {
       // video: "/videos/89066-613200185_tiny.mp4",
     },
     {
-      // video_thumbnail: "/images/slider/KG Students 04.jpg",
+      video_thumbnail: "/images/slider/KG Students 04.jpg",
       // video: "/videos/215475_tiny.mp4",
       // video: "/videos/lv_0_20250221192441.mp4",
+      video: OtherData?.gallery?.[2]?.url2,
       image: OtherData?.gallery?.[2]?.url,
     },
     {
@@ -428,7 +434,8 @@ const Home = () => {
                 data-aos='zoom-in' // Fade in as you scroll
                 data-aos-duration='1500'
               >
-                Bringing new opportunities to the underdogs since 2019
+                {OtherData?.masterquote?.[0]?.quote}
+                {/* Bringing new opportunities to the underdogs since 2019 */}
               </h2>
 
               {/* <button className="custom-btn bridge-btn read-btn">

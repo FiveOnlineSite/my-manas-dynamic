@@ -25,6 +25,7 @@ const AboutUs = () => {
         getRequest("/about/future-leaders"),
         getRequest("/masterquote"),
         getRequest("/masterbanner"),
+        getRequest("/masterdonate"),
       ]);
       console.log(responses, "responsesfefe");
 
@@ -41,11 +42,15 @@ const AboutUs = () => {
             : null,
         masterquote:
           responses[3].status === "fulfilled"
-            ? responses[3].value.data[0]
+            ? responses[3].value.data
             : null,
         masterbanner:
           responses[4].status === "fulfilled"
             ? responses[4].value.data[6]
+            : null,
+        masterdonate:
+          responses[5].status === "fulfilled"
+            ? responses[5].value.data[0]
             : null,
       };
 
@@ -140,7 +145,9 @@ const AboutUs = () => {
         </div>
       </section>
 
-      <Difference masterquote={OtherData?.masterquote || []} />
+      <Difference
+       masterdonate={OtherData?.masterdonate || []}
+        />
 
       <section className='half-img-section about-half-img'>
         <div className='container'>
@@ -153,7 +160,7 @@ const AboutUs = () => {
                     data-aos='zoom-in' // Fade in as you scroll
                     data-aos-duration='1500'
                   >
-                    An inspiring vision to uplift youth.
+                    {OtherData?.masterquote?.[1]?.quote}
                   </h2>
 
                   {/* <p className="paragraph bridge-para text-center">
@@ -161,8 +168,10 @@ const AboutUs = () => {
                   </p> */}
 
                   <button className='custom-btn bridge-btn read-btn'>
-                    <NavLink className='nav-link' to='/our-scope'>
-                      GET STARTED
+                    <NavLink 
+                     to={OtherData?.masterquote?.[1]?.buttonLink}
+                     className='nav-link'>
+                      {OtherData?.masterquote?.[1]?.buttonText}
                     </NavLink>
                   </button>
                 </div>

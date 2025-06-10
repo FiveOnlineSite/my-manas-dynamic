@@ -172,10 +172,9 @@ const Scholarship = () => {
         </div>
       </section>
 
-      <section className='application-section'>
+      {/* <section className='application-section'>
         <div className='container'>
-          {/* <h6 className="section-subtitle">Timeline</h6> */}
-
+          
           <h2 className='section-title'>
             {OtherData?.applicationtimeline?.[0]?.title}
           </h2>
@@ -255,7 +254,47 @@ const Scholarship = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <section className='application-section'>
+  <div className='container'>
+    <h2 className='section-title'>
+      {OtherData?.applicationtimeline?.[0]?.title}
+    </h2>
+
+    <div className='row'>
+      <div className='col-lg-12'>
+        <div className='row'>
+          {OtherData?.applicationtimeline?.[0]?.items?.map((item, index, array) => (
+            <div
+              className={`application col-lg-3 col-md-6 col-12 ${
+                index > 0 ? "mt-lg-0 mt-5" : ""
+              }`}
+              key={index}
+            >
+              <div className='application-div'>
+                <img src='/images/icons/calendar.png' alt='calendar' />
+                <h5>{item.date}</h5>
+                <p>{item.title}</p>
+              </div>
+
+              {/* Show arrow icon except for the last item */}
+              {index < array.length - 1 && (
+                <div>
+                  <img
+                    src='/images/icons/arrow-right-circle.png'
+                    alt='arrow-right'
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <section className='steps-section'>
         <div className='container'>

@@ -24,7 +24,7 @@ const Scope = () => {
         getRequest("/ourscope/overview"),
         getRequest("/ourscope/scholarship"),
         getRequest("/ourscope/institutions"),
-        getRequest("/masterquote"),
+        getRequest("/masterdonate"),
       ]);
       console.log(responses, "responsesfefe");
 
@@ -39,7 +39,7 @@ const Scope = () => {
           responses[2].status === "fulfilled"
             ? responses[2].value.data[0]
             : null,
-        masterquote:
+        masterdonate:
           responses[3].status === "fulfilled"
             ? responses[3].value.data[0]
             : null,
@@ -185,7 +185,7 @@ const Scope = () => {
         </div>
       </section>
 
-      <Difference masterquote={OtherData?.masterquote || []} />
+      <Difference masterdonate={OtherData?.masterdonate || []} />
 
       <ReachOut originPage="scope" />
     </Layout>
