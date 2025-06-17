@@ -69,29 +69,38 @@ const Home = () => {
     // );
   }, []);
 
-  const homeBanner = [
-    // {
-    //   image: "/images/slider/school-boy-holding-delicious-apple.png",
-    // },
-    {
-      image: OtherData?.gallery?.[0]?.url,
-      // video: "/videos/215471_tiny.mp4",
-    },
-    {
-      image: OtherData?.gallery?.[1]?.url,
-      // video: "/videos/89066-613200185_tiny.mp4",
-    },
-    {
-      video_thumbnail: "/images/slider/KG Students 04.jpg",
-      // video: "/videos/215475_tiny.mp4",
-      // video: "/videos/lv_0_20250221192441.mp4",
-      video: OtherData?.gallery?.[2]?.url2,
-      image: OtherData?.gallery?.[2]?.url,
-    },
-    {
-      image: OtherData?.gallery?.[3]?.url,
-    },
-  ];
+  // const homeBanner = [
+  //   // {
+  //   //   image: "/images/slider/school-boy-holding-delicious-apple.png",
+  //   // },
+  //   {
+  //     image: OtherData?.gallery?.[0]?.url,
+  //     // video: "/videos/215471_tiny.mp4",
+  //   },
+  //   {
+  //     image: OtherData?.gallery?.[1]?.url,
+  //     // video: "/videos/89066-613200185_tiny.mp4",
+  //   },
+  //   {
+  //     video_thumbnail: "/images/slider/KG Students 04.jpg",
+  //     // video: "/videos/215475_tiny.mp4",
+  //     // video: "/videos/lv_0_20250221192441.mp4",
+  //     video: OtherData?.gallery?.[2]?.url2,
+  //     image: OtherData?.gallery?.[2]?.url,
+  //   },
+  //   {
+  //     image: OtherData?.gallery?.[3]?.url,
+  //   },
+  // ];
+
+  const homeBanner = OtherData?.gallery?.map((item, index) => {
+  return {
+    image: item.url || null,
+    video: item.url2 || null,
+    video_thumbnail: item.thumbnail || null, // optional if available
+  };
+}) || [];
+
 
   const homeBannerSettings = {
     dots: false,
@@ -320,7 +329,7 @@ const Home = () => {
                     </h2>
 
                     <div className='strategies-accordion'>
-                      <div className='accordion' id='strategiesAccordion'>
+                      {/* <div className='accordion' id='strategiesAccordion'>
                         <div className='accordion-item'>
                           <h2 className='accordion-header'>
                             <button
@@ -405,7 +414,41 @@ const Home = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
+
+                      <div className='accordion' id='strategiesAccordion'>
+  {OtherData?.mission?.accordions?.map((item, index) => {
+    const isFirst = index === 0;
+    const collapseId = `strategy${index + 1}`;
+
+    return (
+      <div className='accordion-item' key={index}>
+        <h2 className='accordion-header'>
+          <button
+            className={`accordion-button ${!isFirst ? 'collapsed' : ''}`}
+            type='button'
+            data-bs-toggle='collapse'
+            data-bs-target={`#${collapseId}`}
+            aria-expanded={isFirst ? 'true' : 'false'}
+            aria-controls={collapseId}
+          >
+            {item.title}
+          </button>
+        </h2>
+        <div
+          id={collapseId}
+          className={`accordion-collapse collapse ${isFirst ? 'show' : ''}`}
+          data-bs-parent='#strategiesAccordion'
+        >
+          <div className='accordion-body'>
+            <p>{item.description}</p>
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
                     </div>
                   </div>
                 </div>
@@ -437,6 +480,17 @@ const Home = () => {
                 {OtherData?.masterquote?.[0]?.quote}
                 {/* Bringing new opportunities to the underdogs since 2019 */}
               </h2>
+              {OtherData?.masterquote?.[0]?.buttonLink && OtherData?.masterquote?.[0]?.buttonText && (
+  <button className='custom-btn bridge-btn read-btn'>
+    <NavLink 
+      to={OtherData.masterquote[0].buttonLink}
+      className='nav-link'
+    >
+      {OtherData.masterquote[0].buttonText}
+    </NavLink>
+  </button>
+)}
+
 
               {/* <button className="custom-btn bridge-btn read-btn">
                 <NavLink className="nav-link" to="/">

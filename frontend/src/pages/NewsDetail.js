@@ -8,7 +8,7 @@ const NewsDetail = () => {
   const fetchData = async () => {
     const res = await getRequest("/newsEvents");
     if (res.success) {
-      setData(res.data[0]);
+      setData(res.data);
     } else {
     }
   };
@@ -90,47 +90,49 @@ const NewsDetail = () => {
 
   return (
     <Layout>
-      <section className='news-detail-banner'>
-        <div className='container-fluid'>
-          <div className='row align-items-center'>
-            <div className='col-lg-5'>
-              <div className='news-detail-img'>
-                <img
-                  src={data?.image?.url}
-                  alt={data?.image?.altText}
-                  className='news-detail-banner-img'
-                />
-              </div>
-            </div>
-
-            <div className='col-lg-7 news-detail-banner-section'>
-              <div className='news-detail-content'>
-                <div className='news-detail-content-subsection d-flex align-items-baseline'>
-                  <h4>{data?.type?.toUpperCase()}</h4> <span></span>{" "}
-                  <h6>
-                    {data?.uploadDate
-                      ? new Date(data.uploadDate)
-                          .toLocaleDateString("en-GB")
-                          .replace(/\//g, ".")
-                      : "-"}
-                  </h6>{" "}
-                </div>
-                <h1 className='section-title news-detail-title'>
-                  {data?.title}
-                </h1>
-
-                <p className='paragraph bridge-para text-justify'>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: data?.excerpt,
-                    }}
-                  />
-                </p>
-              </div>
-            </div>
+     {data?.map((newsItem, index) => (
+  <section className='news-detail-banner' key={index}>
+    <div className='container-fluid'>
+      <div className='row align-items-center'>
+        <div className='col-lg-5'>
+          <div className='news-detail-img'>
+            <img
+              src={newsItem?.image?.url}
+              alt={newsItem?.image?.altText}
+              className='news-detail-banner-img'
+            />
           </div>
         </div>
-      </section>
+
+        <div className='col-lg-7 news-detail-banner-section'>
+          <div className='news-detail-content'>
+            <div className='news-detail-content-subsection d-flex align-items-baseline'>
+              <h4>{newsItem?.type?.toUpperCase()}</h4>
+              <span></span>
+              <h6>
+                {newsItem?.uploadDate
+                  ? new Date(newsItem.uploadDate)
+                      .toLocaleDateString("en-GB")
+                      .replace(/\//g, ".")
+                  : "-"}
+              </h6>
+            </div>
+            <h1 className='section-title news-detail-title'>
+              {newsItem?.title}
+            </h1>
+
+            <div
+              className='paragraph bridge-para text-justify'
+              dangerouslySetInnerHTML={{
+                __html: newsItem?.content,
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+))}
 
       <section className='news-video-section'>
         <div className='container'>

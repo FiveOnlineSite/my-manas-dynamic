@@ -121,7 +121,7 @@ const Institution = () => {
               </div>
             </div>
 
-            <div className='row'>
+            {/* <div className='row'>
               <div className='col-lg-6'>
                 <div className='pillars-div'>
                   <div className='pillar-title d-flex justify-content-between'>
@@ -210,7 +210,31 @@ const Institution = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
+            <div className='row'>
+  {OtherData?.ourmodel?.icons?.map((item, index) => (
+    <div className='col-lg-6' key={index}>
+      <div className='pillars-div'>
+        <div className='pillar-title d-flex justify-content-between'>
+          <h2 className='section-title small-line-height p-0'>
+            {item?.title}
+          </h2>
+          <div>
+            <img src={item?.icon?.url} alt={item?.icon?.altText} />
+          </div>
+        </div>
+        <p className='paragraph bridge-para pillars-para'>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: item?.description,
+            }}
+          />
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
+
           </div>
         </div>
       </section>

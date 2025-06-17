@@ -56,7 +56,7 @@ const AwardeesSlider = ({ awardees }) => {
     <div className='container'>
       <div className='awardee-div'>
         <Slider {...settings}>
-          {awardees[0] && (
+          {/* {awardees[0] && (
             <div className='awardee-title'>
               <div className='d-flex align-items-center'>
                 <div>
@@ -143,6 +143,28 @@ const AwardeesSlider = ({ awardees }) => {
               <div dangerouslySetInnerHTML={{ __html: awardees[3].review }} />
             </div>
           )}
+        </Slider> */}
+        {awardees.map((awardee, index) => (
+            <div className='awardee-title' key={index}>
+              <div className='d-flex align-items-center'>
+                <div>
+                  <img
+                    src={awardee.image?.url}
+                    alt={awardee.image?.altText}
+                    className='w-100 schol-img-two'
+                  />
+                </div>
+                <div className='d-flex flex-column w-100 px-2'>
+                  <div className='d-flex flex-row justify-content-between'>
+                    <h4>{awardee.name}</h4>
+                    <h6>{awardee.year}</h6>
+                  </div>
+                  <h5>{awardee.institute}</h5>
+                </div>
+              </div>
+              <div dangerouslySetInnerHTML={{ __html: awardee.review }} />
+            </div>
+          ))}
         </Slider>
       </div>
     </div>

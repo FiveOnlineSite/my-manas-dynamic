@@ -84,7 +84,9 @@ const AboutUs = () => {
           />
           <div className='about-banner-text banner-text'>
             <h1 className='banner-title'>{OtherData?.masterbanner?.title}</h1>
+            
           </div>
+          
         </div>
       </section>
 
@@ -195,7 +197,7 @@ const AboutUs = () => {
             />
           </p>
 
-          <div className='values-div'>
+          {/* <div className='values-div'>
             <div className='col-lg-12'>
               <div className='row'>
                 <div className='col-lg-4'>
@@ -319,7 +321,33 @@ const AboutUs = () => {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          <div className='values-div'>
+  <div className='col-lg-12'>
+    <div className='row'>
+      {OtherData?.ourvalues?.values?.map((item, index) => (
+        <div className='col-lg-4' key={index}>
+          <div className='single-value'>
+            <div className='value-title'>
+              <img
+                src={item?.icon?.url}
+                alt={item?.icon?.altText}
+              />
+              <h5>{item?.title}</h5>
+            </div>
+            <p>
+              <div
+                dangerouslySetInnerHTML={{ __html: item?.description }}
+              />
+            </p>
           </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
         </div>
       </section>
 

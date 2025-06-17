@@ -11,39 +11,9 @@ const DonateAchivement = ({ achievements }) => {
 
               <h2 className='section-title'>{achievements?.[0]?.title}</h2>
             </div>
-            <div className='col-lg-9'>
+            {/* <div className='col-lg-9'>
               <div className='row'>
-                {/* <div className="col-lg-6 mt-lg-0 mt-5">
-                <div className="achivements-div">
-                  <img
-                    src="/images/banner/DSC04685.jpg"
-                    alt="achivement-img"
-                    className="img-rep"
-                  />
-                  <h4 className="banner-subtitle small-line-height text-start mt-4">
-                    Well-rounded
-                  </h4>
-                  <p className="paragraph bridge-para">
-                    Our emphasis is on well-rounded education that involves
-                    physical, mental, moral, and spiritual aspects of learning,
-                    which improves our students’ critical thinking, athletic
-                    ability, and self-discipline.
-                  </p>
-                </div>
-              </div>
-              <div className="col-lg-6 mt-lg-0 mt-5">
-                <div className="achivements-div">
-                  <img src="/images/banner/DSC04762.jpg" alt="achivement-img" />
-                  <h4 className="banner-subtitle small-line-height text-start mt-4">
-                    Platform for future
-                  </h4>
-                  <p className="paragraph bridge-para">
-                    Each child at Manas Academy is empowered to form opinions
-                    and articulate them, creating a generation that is not
-                    afraid to chase their dreams.
-                  </p>
-                </div>
-              </div> */}
+                
                 <div className='col-lg-6 mt-5'>
                   <div className='achivements-div'>
                     <img
@@ -117,13 +87,47 @@ const DonateAchivement = ({ achievements }) => {
                   </div>
                 </div>
               </div>
-              <div className='row mt-2'>
+              <div className='row mt-2'> */}
+
+
                 {/* <h6 className="affialte-text">
                 Affiliated to <a href="#">CBSE</a>. Affiliation No: 1030824.{" "}
                 <a href="#">School Info</a>.
               </h6> */}
-              </div>
-            </div>
+
+              {/* </div>
+            </div> */}
+
+            <div className='col-lg-9'>
+  <div className='row'>
+    {achievements?.[0]?.items?.map((item, index) => (
+      <div className='col-lg-6 mt-5' key={index}>
+        <div className='achivements-div'>
+          <img src={item?.image?.url} alt={item?.image?.altText || "Achievement"} />
+          <h4 className='banner-subtitle small-line-height text-start mt-4'>
+            {item?.title}
+          </h4>
+          <p className='paragraph bridge-para'>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: item?.description,
+              }}
+            />
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div className='row mt-2'>
+    {/* Optional: dynamic or static footer below achievements */}
+    {/* <h6 className='affialte-text'>
+      Affiliated to <a href='#'>CBSE</a>. Affiliation No: 1030824.
+      <a href='#'> School Info</a>.
+    </h6> */}
+  </div>
+</div>
+
           </div>
         </div>
       </section>

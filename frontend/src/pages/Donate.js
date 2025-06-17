@@ -120,7 +120,7 @@ const Donate = () => {
                     {OtherData?.contribution?.title}
                   </h2>
                 </div>
-                <div className='col-lg-7'>
+                {/* <div className='col-lg-7'>
                   <div className='row'>
                     <div className='col-lg-6'>
                       <div className='contribution-points p-2'>
@@ -190,7 +190,25 @@ const Donate = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
+
+                <div className='col-lg-7'>
+  <div className='row'>
+    {OtherData?.contribution?.items?.map((item, index) => (
+      <div className='col-lg-6' key={index}>
+        <div className='contribution-points p-2'>
+          <h1 className='section-title'>{item.title}</h1>
+          <p className='paragraph bridge-para'>
+            <div
+              dangerouslySetInnerHTML={{ __html: item.description }}
+            />
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
               </div>
             </div>
           </div>

@@ -99,7 +99,7 @@ const SlickSlider = ({ items, settings }) => {
       <Slider {...settings}>
         {items.map((item, index) => (
           <div className="element" key={index}>
-            {item.video ? (
+            {/* {item.video ? (
               <div className="video-thumbnail-container">
                 <img
                   className="slider-thumbnail"
@@ -119,7 +119,38 @@ const SlickSlider = ({ items, settings }) => {
                 alt="Slider Img"
                 className="slider-thumbnail"
               />
-            )}
+            )} */}
+
+            <div className="video-thumbnail-container" style={{ position: "relative" }}>
+  <img
+    className="slider-thumbnail"
+    src={item.image || item.video_thumbnail}
+    alt={`Slide ${index}`}
+    style={{ width: "100%", height: "auto" }}
+  />
+
+  {item.video && (
+    <div
+      className="play-icon-overlay"
+      onClick={() => openModal(item.video)}
+      // style={{
+      //   position: "absolute",
+      //   top: "50%",
+      //   left: "50%",
+      //   transform: "translate(-50%, -50%)",
+      //   cursor: "pointer",
+      //   zIndex: 10,
+      // }}
+    >
+      <img
+        src="/images/icons/Group 8249.png"
+        alt="play-icon"
+        // style={{ width: 60 }}
+      />
+    </div>
+  )}
+</div>
+
           </div>
         ))}
       </Slider>

@@ -82,91 +82,103 @@ const Vidhya = () => {
     //   }))i
     // );
   }, []);
-  const facilities = [
-    {
-      image: "/images/slider/Lab08.jpeg",
-      text: "Sports & Recreational Areas",
-      modal_data: {
-        videos: [
-          // Use an array if multiple videos are needed
-          {
-            video_thumbnail: "/images/slider/Lab08.jpeg",
-            src: "/videos/lv_0_20250221192257.mp4",
-          },
-          // {
-          //   video_thumbnail: "/images/slider/Lab08.jpeg",
-          //   src: "/videos/lv_0_20250221192257.mp4",
-          // },
-        ],
-        modal_images: [
-          "/images/slider/A7402682.jpg",
-          "/images/slider/KG Students 04.jpg",
-        ], // Use an array for multiple images
-      },
-    },
-    {
-      image: "/images/slider/Lab07.jpeg",
-      text: "Extracurriculars",
-      modal_data: {
-        modal_images: [
-          "/images/slider/DSC04685.jpg",
-          "/images/slider/Dance Team02.jpeg",
-          "/images/slider/DSC04762.jpg",
-          "/images/slider/DSC04905.jpg",
-          "/images/slider/Exhibition India.jpeg",
-          "/images/slider/Exhibition Smart Village.jpeg",
-          "/images/slider/OurScope-08.jpeg",
-        ],
-        videos: [
-          {
-            video_thumbnail: "/images/slider/Lab08.jpeg",
-            src: "/videos/lv_0_20250221192441.mp4",
-          },
-        ],
-      },
-    },
-    {
-      image: "/images/slider/Lab09.jpeg",
-      text: "Classroom & Labs",
-      modal_data: {
-        modal_images: [
-          "/images/slider/AboutUs-03.jpeg",
-          "/images/slider/Gayatri 01.jpeg",
-        ],
-        videos: [
-          {
-            video_thumbnail: "/images/slider/Lab09.jpeg",
-            src: "/videos/lv_0_20250221192441.mp4",
-          },
-        ],
-      },
-    },
-  ];
+const facilityTitles = [
+  "Sports & Recreational Areas",
+  "Extracurriculars",
+  "Classroom & Labs",
+  "Student Exhibition",
+];
 
-  const facilitiesSettings = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    autoplay: true,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+const fallbackImages = [
+  "/images/slider/Lab08.jpeg",
+  "/images/slider/Lab07.jpeg",
+  "/images/slider/Lab09.jpeg",
+  "/images/slider/Exhibit01.jpeg",
+];
+
+const fallbackModalImages = [
+  ["/images/slider/A7402682.jpg", "/images/slider/KG Students 04.jpg"],
+  [
+    "/images/slider/DSC04685.jpg",
+    "/images/slider/Dance Team02.jpeg",
+    "/images/slider/DSC04762.jpg",
+    "/images/slider/DSC04905.jpg",
+    "/images/slider/Exhibition India.jpeg",
+    "/images/slider/Exhibition Smart Village.jpeg",
+    "/images/slider/OurScope-08.jpeg",
+  ],
+  ["/images/slider/AboutUs-03.jpeg", "/images/slider/Gayatri 01.jpeg"],
+];
+
+const fallbackVideos = [
+  "/videos/lv_0_20250221192257.mp4",
+  "/videos/lv_0_20250221192441.mp4",
+  "/videos/lv_0_20250221192441.mp4",
+];
+
+const facilities = (OtherData?.facilities || []).map((facility, index) => {
+  const resources = facility?.resources || {};
+  const moreImages = resources.moreFeaturedImages || [];
+  const moreVideos = resources.moreFeaturedVideos || [];
+
+  return {
+    image: resources.image?.url || fallbackImages[index] || "",
+    text: facilityTitles[index] || `Facility ${index + 1}`,
+    modal_data: {
+      modal_images: [
+        resources.featuredImage?.url,
+        ...moreImages.map((img) => img.url).filter(Boolean),
+        ...(fallbackModalImages[index] || []),
+      ].filter(Boolean),
+      videos: [
+        {
+          video_thumbnail:
+            resources.image?.url || fallbackImages[index] || "",
+          src: resources.video?.url || fallbackVideos[index] || "",
         },
-      },
-      {
-        breakpoint: 500,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+        ...moreVideos.map((vid, i) => ({
+          video_thumbnail:
+            moreImages[i]?.url || fallbackImages[index] || "",
+          src: vid?.url || "",
+        })),
+      ].filter((v) => v?.src),
+    },
   };
+});
+const facilityCount = facilities.length;
+
+const getSlidesToShow = () => {
+  if (facilityCount >= 4) return 4;
+  if (facilityCount === 3) return 3;
+  if (facilityCount === 2) return 2;
+  return 1;
+};
+
+const facilitiesSettings = {
+  dots: false,
+  arrows: false,
+  infinite: true,
+  slidesToShow: getSlidesToShow(),
+  slidesToScroll: getSlidesToShow(),
+  autoplay: true,
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: Math.min(2, facilityCount),
+        slidesToScroll: Math.min(2, facilityCount),
+      },
+    },
+    {
+      breakpoint: 500,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+};
+
   return (
     <>
       <Layout>
@@ -219,11 +231,10 @@ const Vidhya = () => {
           </div>
         </section>
 
-        <section className='team-section'>
+        {/* <section className='team-section'>
           <div className='container'>
             <div className='row'>
               <div className='col-lg-4'>
-                {/* <h6 className="section-subtitle">Leadership team</h6> */}
 
                 <h2 className='section-title'>Leadership team</h2>
               </div>
@@ -301,7 +312,58 @@ const Vidhya = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
+
+        <section className='team-section'>
+  <div className='container'>
+    <div className='row'>
+      <div className='col-lg-4'>
+        <h2 className='section-title'>Leadership team</h2>
+      </div>
+    </div>
+
+    <div className='row align-items-center justify-content-center'>
+      <div className='col-lg-8'>
+        <div className='row align-items-center justify-content-center'>
+          {OtherData?.leadershipteam?.members?.map((member, index) => (
+            <div
+              className={`col-lg-5 ${index % 2 !== 0 ? "offset-lg-1 mt-lg-0 mt-5" : ""}`}
+              key={index}
+            >
+              <div className='team-div'>
+                <div className='team-img-div'>
+                  <img
+                    src={member?.image?.url}
+                    alt={member?.image?.altText || "leader image"}
+                    className='team-img mt-4'
+                  />
+                  <img
+                    src={
+                      index % 2 === 0
+                        ? "/images/banner/Vector 8.png" // Even index
+                        : "/images/banner/Vector 6.png" // Odd index
+                    }
+                    alt={index % 2 === 0 ? "down-img" : "up-img"}
+                    className={index % 2 === 0 ? "down-img" : "up-img"}
+                  />
+                </div>
+                <div className='team-content mt-4'>
+                  <h6>{member?.name}</h6>
+                  <p>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: member?.description }}
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
         {/* <Achivements /> */}
 
@@ -316,6 +378,17 @@ const Vidhya = () => {
                     <h2 className='section-title text-center'>
                      {OtherData?.masterquote?.[3]?.quote}
                     </h2>
+                    {OtherData?.masterquote?.[3]?.buttonLink && OtherData?.masterquote?.[3]?.buttonText && (
+  <button className='custom-btn bridge-btn read-btn'>
+    <NavLink 
+      to={OtherData.masterquote[3].buttonLink}
+      className='nav-link'
+    >
+      {OtherData.masterquote[3].buttonText}
+    </NavLink>
+  </button>
+)}
+
                   </div>
 
                   {/* <div className="col-lg-6 offset-lg-1">
@@ -489,41 +562,59 @@ const Vidhya = () => {
         <section className='apply-section'>
           <div className='container'>
             <h2 className='section-title pb-2'>How to Apply</h2>
-            <h4>COMING SOON</h4>
-            {/* <div className="apply-btn-div"> */}
+            {OtherData?.howtoapply?.[0]?.whatsapp ? (
+  <div className="apply-btn-div">
+    <button className="custom-btn bridge-btn me-4">
+      <NavLink
+        className="nav-link"
+        target="_blank"
+        to={`https://wa.me/${OtherData.howtoapply[0].whatsapp}`}
+      >
+        WHATSAPP US
+      </NavLink>
+    </button>
 
-            {/* <button className="custom-btn bridge-btn me-4">
-              <NavLink className="nav-link" to="https://wa.me/917489906950">
-                WHATSAPP US
-              </NavLink>
-            </button>
+    <button
+      className="custom-btn bridge-btn"
+      onClick={() =>
+        document
+          .getElementById("contact-section-one")
+          ?.scrollIntoView({ behavior: "smooth" })
+      }
+    >
+      CONTACT US
+    </button>
+  </div>
+) : (
+  <h4>COMING SOON</h4>
+)}
 
-            <button className="custom-btn bridge-btn" onClick={() =>
-    document.getElementById("contact-section-one")?.scrollIntoView({ behavior: "smooth" })
-  }>CONTACT US
-            </button> */}
-            {/* </div> */}
           </div>
         </section>
 
-        <section className='facilties-slider'>
-          <div className='container'>
-            <h2 className='section-title pb-2'>Facilities</h2>
-            <h4>COMING SOON</h4>
-          </div>
-          {/* <div className="row">
-          <div
-            className="home-slick-slider wow"
-            data-aos="zoom-in" // Fade in as you scroll
-            data-aos-duration="1500"
-          >
-            <FacilitiesSlider
-              settings={facilitiesSettings}
-              items={facilities}
-            />
-          </div>
-        </div> */}
-        </section>
+       <section className='facilties-slider'>
+  <div className='container'>
+    <h2 className='section-title pb-2'>Facilities</h2>
+
+    {facilities.length > 0 ? (
+      <div className='row'>
+        <div
+          className='home-slick-slider wow'
+          data-aos='zoom-in'
+          data-aos-duration='1500'
+        >
+          <FacilitiesSlider
+            settings={facilitiesSettings}
+            items={facilities}
+          />
+        </div>
+      </div>
+    ) : (
+      <h4>COMING SOON</h4>
+    )}
+  </div>
+</section>
+
 
         <Testimonials testimonials={OtherData?.testimonials || []} />
 

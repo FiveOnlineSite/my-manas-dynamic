@@ -84,118 +84,103 @@ const Academy = () => {
     // );
   }, []);
 
-  const facilities = [
-    {
-      // image: "/images/slider/Basketball_2024.jpg",
-      image: OtherData?.facilities?.[0]?.resources?.image?.url,
-      // image: "/images/slider/Basketball_2024.jpg",
-      text: "Sports & Recreational Areas",
-      modal_data: {
-        videos: [
-          // Use an array if multiple videos are needed
-          {
-            video_thumbnail: OtherData?.facilities?.[0]?.resources?.image?.url,
-            // video_thumbnail: "/images/slider/Basketball_2024.jpg",
-            src: OtherData?.facilities?.[0]?.resources?.video?.url,
-          },
-          // {
-          //   video_thumbnail: "/images/slider/Lab08.jpeg",
-          //   src: "/videos/lv_0_20250221192257.mp4",
-          // },
-        ],
-        modal_images: [
-          // "/images/slider/Basketball.jpeg",
-          OtherData?.facilities?.[0]?.resources?.featuredImage?.url,
-        ], // Use an array for multiple images
-      },
-    },
-    {
-      image: OtherData?.facilities?.[1]?.resources?.image?.url,
-      text: "Extracurriculars",
-      modal_data: {
-        modal_images: [
-          OtherData?.facilities?.[1]?.resources?.featuredImage?.url,
-          "/images/slider/Dance Team02.jpeg",
-          "/images/slider/DSC04762.jpg",
-          "/images/slider/Exhibition India.jpeg",
-          "/images/slider/Exhibition Smart Village.jpeg",
-        ],
-        videos: [
-          {
-            video_thumbnail: OtherData?.facilities?.[1]?.resources?.image?.url,
-            src: OtherData?.facilities?.[1]?.resources?.video?.url,
-          },
-          {
-            video_thumbnail: "/images/slider/Dance Team02.jpeg",
-            src: "/videos/navratri-2024-performances-in-communities.mp4",
-          },
-        ],
-      },
-    },
-    {
-      image: OtherData?.facilities?.[2]?.resources?.image?.url,
-      text: "Classroom & Labs",
-      modal_data: {
-        modal_images: [
-          OtherData?.facilities?.[2]?.resources?.featuredImage?.url,
-          "/images/slider/Gayatri 01.jpeg",
-        ],
-        videos: [
-          {
-            video_thumbnail: OtherData?.facilities?.[2]?.resources?.image?.url,
-            src: OtherData?.facilities?.[2]?.resources?.video?.url,
-          },
-        ],
-      },
-    },
-    {
-      image: "/images/slider/Exhibit01.jpeg",
-      // image: "/images/slider/Basketball_2024.jpg",
-      text: "Student Exhibition",
-      modal_data: {
-        videos: [
-          // Use an array if multiple videos are needed
-          {
-            video_thumbnail: "/images/slider/Exhibit01.jpeg",
-            src: "/videos/MA Third Annual Exhibition Jan13-2025 (1).mp4",
-          },
-          // {
-          //   video_thumbnail: "/images/slider/Lab08.jpeg",
-          //   src: "/videos/lv_0_20250221192257.mp4",
-          // },
-        ],
-        modal_images: [
-          "/images/slider/DSC02077.jpg",
-          "/images/slider/DSC02167.jpg",
-        ], // Use an array for multiple images
-      },
-    },
-  ];
+  const facilityTitles = [
+  "Sports & Recreational Areas",
+  "Extracurriculars",
+  "Classroom & Labs",
+  "Student Exhibition",
+];
 
-  const facilitiesSettings = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    autoplay: true,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 500,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+const defaultThumbnails = [
+  "/images/slider/Basketball_2024.jpg",
+  "/images/slider/Dance Team02.jpeg",
+  "/images/slider/Gayatri 01.jpeg",
+  "/images/slider/Exhibit01.jpeg",
+];
+
+const defaultVideos = [
+  "/videos/MA Third Annual Exhibition Jan13-2025 (1).mp4",
+];
+
+const defaultImages = [
+  ["/images/slider/DSC02077.jpg", "/images/slider/DSC02167.jpg"],
+];
+
+const facilities = (OtherData?.facilities || []).map((facility, index) => {
+  const resources = facility?.resources || {};
+  const moreImages = resources.moreFeaturedImages || [];
+  const moreVideos = resources.moreFeaturedVideos || [];
+
+  return {
+    image: resources.image?.url || defaultThumbnails[index] || "",
+    text: facilityTitles[index] || `Facility ${index + 1}`,
+    modal_data: {
+      modal_images:
+        index === 3
+          ? defaultImages[0]
+          : [
+              resources.featuredImage?.url,
+              ...(moreImages.map((img) => img.url).filter(Boolean) || []),
+            ],
+      videos:
+        index === 3
+          ? [
+              {
+                video_thumbnail: defaultThumbnails[3],
+                src: defaultVideos[0],
+              },
+            ]
+          : [
+              {
+                video_thumbnail: resources.image?.url || defaultThumbnails[index],
+                src: resources.video?.url || "",
+              },
+              ...(moreVideos.map((vid, i) => ({
+                video_thumbnail: moreImages[i]?.url || defaultThumbnails[index],
+                src: vid?.url || "",
+              })) || []),
+            ],
+    },
   };
+});
+
+
+    
+const facilityCount = OtherData?.facilities?.length || 0;
+
+const getSlidesToShow = () => {
+  if (facilityCount >= 4) return 4;
+  if (facilityCount === 3) return 3;
+  if (facilityCount === 2) return 2;
+  if (facilityCount === 1) return 1;
+  return 1;
+};
+
+const facilitiesSettings = {
+  dots: false,
+  arrows: false,
+  infinite: true,
+  slidesToShow: getSlidesToShow(),
+  slidesToScroll: getSlidesToShow(),
+  autoplay: true,
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: Math.min(2, facilityCount),
+        slidesToScroll: Math.min(2, facilityCount),
+      },
+    },
+    {
+      breakpoint: 500,
+      settings: {
+        slidesToShow: Math.min(1, facilityCount),
+        slidesToScroll: Math.min(1, facilityCount),
+      },
+    },
+  ],
+};
+
 
   return (
     <Layout>
@@ -248,11 +233,10 @@ const Academy = () => {
         </div>
       </section>
 
-      <section className='team-section'>
+      {/* <section className='team-section'>
         <div className='container'>
           <div className='row'>
             <div className='col-lg-4'>
-              {/* <h6 className="section-subtitle">Leadership team</h6> */}
 
               <h2 className='section-title'>Leadership team</h2>
             </div>
@@ -325,7 +309,7 @@ const Academy = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* <div className="custom-col mt-lg-0 mt-5">
                   <div className="team-div">
                     <div className="team-img-div">
@@ -386,11 +370,64 @@ const Academy = () => {
                     </div>
                   </div>
                 </div> */}
-              </div>
+              {/* </div>
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <section className='team-section'>
+  <div className='container'>
+    <div className='row'>
+      <div className='col-lg-4'>
+        <h2 className='section-title'>Leadership team</h2>
+      </div>
+    </div>
+
+    <div className='row align-items-center justify-content-center'>
+      <div className='col-lg-8'>
+        <div className='row align-items-center justify-content-center'>
+          {OtherData?.leadershipteam?.members?.map((member, index) => (
+            <div
+              key={index}
+              className={`col-lg-5 ${index % 2 !== 0 ? "offset-lg-1 mt-lg-0 mt-5" : ""}`}
+            >
+              <div className='team-div'>
+                <div className='team-img-div'>
+                  <img
+                    src={member?.image?.url}
+                    alt={member?.image?.altText}
+                    className='team-img mt-4'
+                  />
+                  <img
+                    src={
+                      index % 2 === 0
+                        ? '/images/banner/Vector 8.png' // down arrow
+                        : '/images/banner/Vector 6.png' // up arrow
+                    }
+                    alt={index % 2 === 0 ? 'down-img' : 'up-img'}
+                    className={index % 2 === 0 ? 'down-img' : 'up-img'}
+                  />
+                </div>
+                <div className='team-content mt-4'>
+                  <h6>{member?.name}</h6>
+                  <p>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: member?.description,
+                      }}
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <Achivements achievements={OtherData?.achievements || []} />
 
@@ -407,6 +444,17 @@ const Academy = () => {
                     them for life. */}
                     {OtherData?.masterquote?.[2]?.quote}
                   </h2>
+                   {OtherData?.masterquote?.[2]?.buttonLink && OtherData?.masterquote?.[2]?.buttonText && (
+  <button className='custom-btn bridge-btn read-btn'>
+    <NavLink 
+      to={OtherData.masterquote[2].buttonLink}
+      className='nav-link'
+    >
+      {OtherData.masterquote[2].buttonText}
+    </NavLink>
+  </button>
+)}
+
                 </div>
 
                 {/* <div className="col-lg-6 offset-lg-1">
@@ -619,7 +667,7 @@ const Academy = () => {
 
       <section className='facilties-slider'>
         <div className='container'>
-          <h2 className='section-title'>{OtherData?.facilities?.[0]?.title}</h2>
+          <h2 className='section-title'>Facilities</h2>
         </div>
         <div className='row'>
           <div

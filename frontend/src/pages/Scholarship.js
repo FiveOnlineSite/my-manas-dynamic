@@ -86,19 +86,52 @@ const Scholarship = () => {
   return (
     <Layout>
       <section className='about-banner'>
-        <div className='container-fluid'>
-          <img
-            src={OtherData?.masterbanner?.image?.url}
-            alt={OtherData?.masterbanner?.altText}
-            className='about-img'
-          />
-          <div className='about-banner-text'>
-            <h1 className='banner-title mt-5'>
-              {OtherData?.masterbanner?.title}
-            </h1>
-          </div>
-        </div>
-      </section>
+  <div className='container-fluid'>
+    {OtherData?.masterbanner?.image?.url && (
+      <img
+        src={OtherData.masterbanner.image.url}
+        alt={OtherData.masterbanner.altText || "Scholarship Banner"}
+        className='about-img'
+      />
+    )}
+
+    <div className='about-banner-text'>
+      {OtherData?.masterbanner?.title && (
+        <h1 className='banner-title mt-5'>
+          {OtherData.masterbanner.title}
+        </h1>
+      )}
+
+      {/* {OtherData?.masterbanner?.subtitle && (
+        <h2 className='banner-subtitle'>
+          {OtherData.masterbanner.subtitle}
+        </h2>
+      )} */}
+
+     {/* {OtherData?.masterbanner?.description && (
+  <div
+    className='paragraph wow'
+    data-aos='fade-up'
+    data-aos-duration='1500'
+    dangerouslySetInnerHTML={{ __html: OtherData.masterbanner.description }}
+  />
+)} */}
+
+
+      {/* {OtherData?.masterbanner?.buttonText && OtherData?.masterbanner?.buttonLink && (
+  <NavLink to={OtherData.masterbanner.buttonLink} className="custombtn-a">
+    <button className='custom-btn white-btn wow customebtn'>
+      <li className='nav-link'>
+        {OtherData.masterbanner.buttonText}
+      </li>
+    </button>
+  </NavLink>
+)} */}
+
+    </div>
+  </div>
+</section>
+
 
       <section className='assistance-section'>
         <div className='container'>
@@ -303,7 +336,7 @@ const Scholarship = () => {
           <h2 className='section-title'>
             {OtherData?.applicationcontent?.title}
           </h2>
-          <div className='row'>
+          {/* <div className='row'>
             <div className='col-lg-12'>
               <div className='row'>
                 <div className='col-lg-4'>
@@ -346,7 +379,29 @@ const Scholarship = () => {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          <div className='row'>
+  <div className='col-lg-12'>
+    <div className='row'>
+      {OtherData?.applicationcontent?.contents?.map((content, index) => (
+        <div className='col-lg-4' key={index}>
+          <div className='steps-div'>
+            <h2 className='steps-no'>{index + 1}</h2>
+            <p className='paragraph bridge-para ps-4 mt-0 mb-4'>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: content,
+                }}
+              />
+            </p>
           </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
         </div>
       </section>
 
@@ -393,7 +448,7 @@ const Scholarship = () => {
             />
           </p>
 
-          <div className='values-div'>
+          {/* <div className='values-div'>
             <div className='col-lg-12'>
               <div className='row'>
                 <div className='col-lg-4'>
@@ -489,7 +544,30 @@ const Scholarship = () => {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          <div className='values-div'>
+  <div className='col-lg-12'>
+    <div className='row'>
+      {OtherData?.notification?.contents?.map((content, index) => (
+        <div className='col-lg-4' key={index}>
+          <div className='single-value'>
+            <div className='value-title align-items-start'>
+              <img src='/images/icons/Group 8339.png' alt='value-img' />
+              <p className='ps-3 pt-2'>
+                <div
+                  className='value-description'
+                  dangerouslySetInnerHTML={{ __html: content }}
+                />
+              </p>
+            </div>
           </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
         </div>
       </section>
 
@@ -525,7 +603,7 @@ const Scholarship = () => {
             </div>
           </div>
 
-          <div className='row mt-5'>
+          {/* <div className='row mt-5'>
             <div className='col-lg-4 col-md-6 col-12'>
               <div>
                 <img
@@ -565,7 +643,31 @@ const Scholarship = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
+
+          <div className='row mt-5'>
+  {OtherData?.ourgoal?.goals?.map((goal, index) => (
+    <div
+      className={`col-lg-${index === 1 ? "5" : "4"} col-md-6 col-12`}
+      key={index}
+    >
+      <div>
+        <img
+          src={goal?.images?.[0]?.url}
+          alt={goal?.images?.[0]?.altText}
+          className={`w-sm-100 ${index === 1 ? "w-auto" : "schol-img-two"}`}
+        />
+        <h4 className='banner-subtitle small-line-height text-start mt-4'>
+          {goal?.title}
+        </h4>
+        <p className='paragraph bridge-para'>
+          <div dangerouslySetInnerHTML={{ __html: goal?.description }} />
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
+
         </div>
       </section>
     </Layout>
