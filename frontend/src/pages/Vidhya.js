@@ -140,35 +140,81 @@ const fallbackVideos = [
   "/videos/lv_0_20250221192441.mp4",
 ];
 
-const facilities = (OtherData?.facilities || []).map((facility, index) => {
-  const resources = facility?.resources || {};
-  const moreImages = resources.moreFeaturedImages || [];
-  const moreVideos = resources.moreFeaturedVideos || [];
+// const facilities = (OtherData?.facilities || []).map((facility, index) => {
+//   const resources = facility?.resources || {};
+//   const moreImages = resources.moreFeaturedImages || [];
+//   const moreVideos = resources.moreFeaturedVideos || [];
+
+//   return {
+//     image: resources.image?.url || fallbackImages[index] || "",
+//     text: facilityTitles[index] || `Facility ${index + 1}`,
+//     modal_data: {
+//       modal_images: [
+//         resources.featuredImage?.url,
+//         ...moreImages.map((img) => img.url).filter(Boolean),
+//         ...(fallbackModalImages[index] || []),
+//       ].filter(Boolean),
+//       videos: [
+//         {
+//           video_thumbnail:
+//             resources.image?.url || fallbackImages[index] || "",
+//           src: resources.video?.url || fallbackVideos[index] || "",
+//         },
+//         ...moreVideos.map((vid, i) => ({
+//           video_thumbnail:
+//             moreImages[i]?.url || fallbackImages[index] || "",
+//           src: vid?.url || "",
+//         })),
+//       ].filter((v) => v?.src),
+//     },
+//   };
+// });
+
+const facilities = (OtherData?.facilities || []).map((item, index) => {
+  const resources = item.resources || {};
+
+  const mainVideo = resources.video?.url
+    ? {
+        video_thumbnail: resources.featuredVideoThumbnail?.url || resources.image?.url || "",
+        src: resources.video.url,
+      }
+    : null;
+
+  const additionalVideos = (resources.moreFeaturedVideos || []).map((v) => ({
+    video_thumbnail: v.thumbnail?.url || "",
+    src: v.video?.url || "",
+  }));
+
+  const allVideos = [
+    ...(mainVideo ? [mainVideo] : []),
+    ...additionalVideos,
+  ];
+
+  const allImages = [
+    ...(resources.featuredImage?.url ? [resources.featuredImage.url] : []),
+    ...(resources.moreFeaturedImages || []).map((img) => img.url || ""),
+  ];
+
+  const fallbackImage =
+    resources.image?.url || "/images/slider/default_placeholder.jpg";
+
+  const defaultTitles = [
+    "Sports & Recreational Areas",
+    "Extracurriculars",
+    "Classroom & Labs",
+    "Student Exhibition",
+  ];
 
   return {
-    image: resources.image?.url || fallbackImages[index] || "",
-    text: facilityTitles[index] || `Facility ${index + 1}`,
+    image: fallbackImage,
+    text: item.sliderText?.trim() || defaultTitles[index] || `Facility ${index + 1}`,
     modal_data: {
-      modal_images: [
-        resources.featuredImage?.url,
-        ...moreImages.map((img) => img.url).filter(Boolean),
-        ...(fallbackModalImages[index] || []),
-      ].filter(Boolean),
-      videos: [
-        {
-          video_thumbnail:
-            resources.image?.url || fallbackImages[index] || "",
-          src: resources.video?.url || fallbackVideos[index] || "",
-        },
-        ...moreVideos.map((vid, i) => ({
-          video_thumbnail:
-            moreImages[i]?.url || fallbackImages[index] || "",
-          src: vid?.url || "",
-        })),
-      ].filter((v) => v?.src),
+      videos: allVideos,
+      modal_images: allImages,
     },
   };
 });
+
 const facilityCount = facilities.length;
 
 const getSlidesToShow = () => {
