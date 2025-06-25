@@ -3,10 +3,14 @@ import Layout from "../components/Layout";
 import { NavLink } from "react-router-dom";
 import Difference from "../components/Difference";
 import { getRequest } from "../api/api";
+import { Helmet } from "react-helmet-async";
+
 
 const Institution = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
+      const [meta, setMeta] = useState(null);
+  
 
   const fetchData = async () => {
     const res = await getRequest("/institutions/about-us");
@@ -50,6 +54,17 @@ const Institution = () => {
   console.log(OtherData, "gfhbh");
 
   useEffect(() => {
+        const fetchMetaData = async () => {
+          const res = await getRequest("/mastermetadata/institutions");
+          if (res.success && res.data.length > 0) {
+             console.log("Meta from API:", res.data[0]);
+            setMeta(res.data[0]); // assuming the backend returns an array
+          }
+        };
+        fetchMetaData();
+      }, []);
+
+  useEffect(() => {
     fetchData();
     fetchOtherData();
     // setData((prev) =>
@@ -61,6 +76,14 @@ const Institution = () => {
   }, []);
 
   return (
+    <div>
+           {meta?.metaTitle && (
+                <Helmet>
+                  <title>{meta.metaTitle}</title>
+                  <meta name="description" content={meta.metaDescription} />
+                  <meta name="keywords" content={meta.metaKeywords} />
+                </Helmet>
+              )}
     <Layout>
       <section className='about-banner'>
         <div className='container-fluid'>
@@ -317,6 +340,8 @@ const Institution = () => {
 
       <Difference masterdonate={OtherData?.masterdonate || []} />
     </Layout>
+    </div>
+
   );
 };
 

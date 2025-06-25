@@ -5,10 +5,14 @@ import Testimonials from "../components/Testimonials";
 import FacilitiesSlider from "../components/FacilitiesSlider";
 import ReachOut from "../components/ReachOut";
 import { getRequest } from "../api/api";
+import { Helmet } from "react-helmet-async";
+
 
 const Vidhya = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
+          const [meta, setMeta] = useState(null);
+  
 
   const fetchData = async () => {
     const res = await getRequest("/vidhyavanam/history");
@@ -58,10 +62,19 @@ const Vidhya = () => {
           responses[7].status === "fulfilled"
             ? responses[7].value.data[0]
             : null,
+        // masterquote:
+        //   responses[8].status === "fulfilled"
+        //     ? responses[8].value.data
+        //     : null,
+
         masterquote:
-          responses[8].status === "fulfilled"
-            ? responses[8].value.data
-            : null,
+  responses[8].status === "fulfilled"
+    ? responses[8].value.data.reduce((acc, item) => {
+        if (item.page) acc[item.page] = item;
+        return acc;
+      }, {})
+    : null,
+
       };
 
       setOtherData(resultObj);
@@ -71,6 +84,17 @@ const Vidhya = () => {
   };
 
   console.log(OtherData, "gfhbh");
+
+  useEffect(() => {
+            const fetchMetaData = async () => {
+              const res = await getRequest("/mastermetadata/vidhyavanam");
+              if (res.success && res.data.length > 0) {
+                 console.log("Meta from API:", res.data[0]);
+                setMeta(res.data[0]); // assuming the backend returns an array
+              }
+            };
+            fetchMetaData();
+          }, []);
 
   useEffect(() => {
     fetchData();
@@ -181,6 +205,13 @@ const facilitiesSettings = {
 
   return (
     <>
+    {meta?.metaTitle && (
+                        <Helmet>
+                          <title>{meta.metaTitle}</title>
+                          <meta name="description" content={meta.metaDescription} />
+                          <meta name="keywords" content={meta.metaKeywords} />
+                        </Helmet>
+                      )}
       <Layout>
         <section className='about-banner'>
           <div className='container-fluid'>
@@ -376,19 +407,18 @@ const facilitiesSettings = {
                     {/* <h6 className="section-subtitle">CURRICULUM</h6> */}
 
                     <h2 className='section-title text-center'>
-                     {OtherData?.masterquote?.[3]?.quote}
+                   {OtherData?.masterquote?.vidhyavanam?.quote}
                     </h2>
-                    {OtherData?.masterquote?.[3]?.buttonLink && OtherData?.masterquote?.[3]?.buttonText && (
+                    {OtherData?.masterquote?.vidhyavanam?.buttonLink && OtherData?.masterquote?.vidhyavanam?.buttonText && (
   <button className='custom-btn bridge-btn read-btn'>
     <NavLink 
-      to={OtherData.masterquote[3].buttonLink}
+      to={OtherData.masterquote.vidhyavanam.buttonLink}
       className='nav-link'
     >
-      {OtherData.masterquote[3].buttonText}
+      {OtherData.masterquote.vidhyavanam.buttonText}
     </NavLink>
   </button>
 )}
-
                   </div>
 
                   {/* <div className="col-lg-6 offset-lg-1">

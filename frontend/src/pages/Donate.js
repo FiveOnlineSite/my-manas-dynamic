@@ -6,10 +6,14 @@ import Testimonials from "../components/Testimonials";
 import Achivements from "../components/Achivements";
 import DonateAchivement from "../components/DonateAchivement";
 import { getRequest } from "../api/api";
+import { Helmet } from "react-helmet-async";
+
 
 const Donate = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
+    const [meta, setMeta] = useState(null);
+  
 
   const fetchData = async () => {
     const res = await getRequest("/donate/about-us");
@@ -61,6 +65,18 @@ const Donate = () => {
 
   console.log(OtherData, "gfhbh");
 
+     useEffect(() => {
+      const fetchMetaData = async () => {
+        const res = await getRequest("/mastermetadata/donate");
+        if (res.success && res.data.length > 0) {
+           console.log("Meta from API:", res.data[0]);
+          setMeta(res.data[0]); // assuming the backend returns an array
+        }
+      };
+      fetchMetaData();
+    }, []);
+    
+
   useEffect(() => {
     fetchData();
     fetchOtherData();
@@ -72,6 +88,14 @@ const Donate = () => {
     // );
   }, []);
   return (
+    <>
+     {meta?.metaTitle && (
+            <Helmet>
+              <title>{meta.metaTitle}</title>
+              <meta name="description" content={meta.metaDescription} />
+              <meta name="keywords" content={meta.metaKeywords} />
+            </Helmet>
+          )}
     <Layout>
       <section className='about-banner'>
         <div className='container-fluid'>
@@ -219,6 +243,7 @@ const Donate = () => {
 
       <Testimonials testimonials={OtherData?.testimonials || []} />
     </Layout>
+    </>
   );
 };
 

@@ -5,10 +5,13 @@ import { NavLink } from "react-router-dom";
 import ReachOut from "../components/ReachOut";
 import Testimonials from "../components/Testimonials";
 import { getRequest } from "../api/api";
+import { Helmet } from "react-helmet-async";
+
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
+  const [meta, setMeta] = useState(null);
 
   const fetchBannerData = async () => {
     try {
@@ -17,6 +20,17 @@ const Home = () => {
       setData(result.data[0]);
     } catch (error) { }
   };
+
+//   const fetchMetaData = async () => {
+//   try {
+//     const res = await getRequest("/mastermetadata/home");
+//     if (res.success && res.data.length > 0) {
+//       setMeta(res.data[0]); // save first match
+//     }
+//   } catch (err) {
+//     console.error("Failed to load meta data");
+//   }
+// };
 
   const fetchOtherData = async () => {
     try {
@@ -44,10 +58,19 @@ const Home = () => {
           responses[3].status === "fulfilled"
             ? responses[3].value.data
             : null,
+        // masterquote:
+        //   responses[4].status === "fulfilled"
+        //     ? responses[4].value.data
+        //     : null,
+
         masterquote:
-          responses[4].status === "fulfilled"
-            ? responses[4].value.data
-            : null,
+  responses[4].status === "fulfilled"
+    ? responses[4].value.data.reduce((acc, item) => {
+        if (item.page) acc[item.page] = item;
+        return acc;
+      }, {})
+    : null,
+
       };
 
       setOtherData(resultObj);
@@ -58,9 +81,21 @@ const Home = () => {
 
   console.log(OtherData, "gfhbh");
 
+   useEffect(() => {
+    const fetchMetaData = async () => {
+      const res = await getRequest("/mastermetadata/home");
+      if (res.success && res.data.length > 0) {
+         console.log("Meta from API:", res.data[0]);
+        setMeta(res.data[0]); // assuming the backend returns an array
+      }
+    };
+    fetchMetaData();
+  }, []);
+  
   useEffect(() => {
     fetchBannerData();
     fetchOtherData();
+    //  fetchMetaData(); 
     // setData((prev) =>
     //   prev.map((item) => ({
     //     ...item,
@@ -128,6 +163,13 @@ const Home = () => {
   };
   return (
     <div>
+          {meta?.metaTitle && (
+        <Helmet>
+          <title>{meta.metaTitle}</title>
+          <meta name="description" content={meta.metaDescription} />
+          <meta name="keywords" content={meta.metaKeywords} />
+        </Helmet>
+      )}
       <Layout>
         {/* <section className="banner">
           <div className="container-fluid">
@@ -477,16 +519,30 @@ const Home = () => {
                 data-aos='zoom-in' // Fade in as you scroll
                 data-aos-duration='1500'
               >
-                {OtherData?.masterquote?.[0]?.quote}
+                {/* {OtherData?.masterquote?.[0]?.quote} */}
+
+                {OtherData?.masterquote?.home?.quote}
+
                 {/* Bringing new opportunities to the underdogs since 2019 */}
               </h2>
-              {OtherData?.masterquote?.[0]?.buttonLink && OtherData?.masterquote?.[0]?.buttonText && (
+              {/* {OtherData?.masterquote?.[0]?.buttonLink && OtherData?.masterquote?.[0]?.buttonText && (
   <button className='custom-btn bridge-btn read-btn'>
     <NavLink 
       to={OtherData.masterquote[0].buttonLink}
       className='nav-link'
     >
       {OtherData.masterquote[0].buttonText}
+    </NavLink>
+  </button>
+)} */}
+
+{OtherData?.masterquote?.home?.buttonLink && OtherData?.masterquote?.home?.buttonText && (
+  <button className='custom-btn bridge-btn read-btn'>
+    <NavLink 
+      to={OtherData.masterquote.home.buttonLink}
+      className='nav-link'
+    >
+      {OtherData.masterquote.home.buttonText}
     </NavLink>
   </button>
 )}

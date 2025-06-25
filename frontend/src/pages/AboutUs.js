@@ -3,10 +3,14 @@ import Layout from "../components/Layout";
 import Difference from "../components/Difference";
 import { NavLink } from "react-router-dom";
 import { getRequest } from "../api/api";
+import { Helmet } from "react-helmet-async";
+
 
 const AboutUs = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
+    const [meta, setMeta] = useState(null);
+  
 
   const fetchData = async () => {
     const res = await getRequest("/about/overview");
@@ -40,10 +44,19 @@ const AboutUs = () => {
           responses[2].status === "fulfilled"
             ? responses[2].value.data[0]
             : null,
+        // masterquote:
+        //   responses[3].status === "fulfilled"
+        //     ? responses[3].value.data
+        //     : null,
+
         masterquote:
-          responses[3].status === "fulfilled"
-            ? responses[3].value.data
-            : null,
+  responses[3].status === "fulfilled"
+    ? responses[3].value.data.reduce((acc, item) => {
+        if (item.page) acc[item.page] = item;
+        return acc;
+      }, {})
+    : null,
+
         masterbanner:
           responses[4].status === "fulfilled"
             ? responses[4].value.data[6]
@@ -63,6 +76,18 @@ const AboutUs = () => {
   console.log(OtherData, "gfhbh");
 
   useEffect(() => {
+      const fetchMetaData = async () => {
+        const res = await getRequest("/mastermetadata/about");
+        if (res.success && res.data.length > 0) {
+           console.log("Meta from API:", res.data[0]);
+          setMeta(res.data[0]); // assuming the backend returns an array
+        }
+      };
+      fetchMetaData();
+    }, []);
+    
+
+  useEffect(() => {
     fetchData();
     fetchOtherData();
     // setData((prev) =>
@@ -74,7 +99,15 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <Layout>
+    <div>
+      {meta?.metaTitle && (
+              <Helmet>
+                <title>{meta.metaTitle}</title>
+                <meta name="description" content={meta.metaDescription} />
+                <meta name="keywords" content={meta.metaKeywords} />
+              </Helmet>
+            )}
+          <Layout>
       <section className='about-banner'>
         <div className='container-fluid'>
           <img
@@ -162,20 +195,31 @@ const AboutUs = () => {
                     data-aos='zoom-in' // Fade in as you scroll
                     data-aos-duration='1500'
                   >
-                    {OtherData?.masterquote?.[1]?.quote}
+                   {OtherData?.masterquote?.about?.quote}
                   </h2>
 
                   {/* <p className="paragraph bridge-para text-center">
                   Providing education that’s accessible to rural communities and opening learning opportunities that integrate top-tier education with holistic life skills.
                   </p> */}
 
-                  <button className='custom-btn bridge-btn read-btn'>
+                  {/* <button className='custom-btn bridge-btn read-btn'>
                     <NavLink 
                      to={OtherData?.masterquote?.[1]?.buttonLink}
                      className='nav-link'>
                       {OtherData?.masterquote?.[1]?.buttonText}
                     </NavLink>
-                  </button>
+                  </button> */}
+
+                  {OtherData?.masterquote?.about?.buttonLink && OtherData?.masterquote?.about?.buttonText && (
+  <button className='custom-btn bridge-btn read-btn'>
+    <NavLink 
+      to={OtherData.masterquote.about.buttonLink}
+      className='nav-link'
+    >
+      {OtherData.masterquote.about.buttonText}
+    </NavLink>
+  </button>
+)}
                 </div>
               </div>
             </div>
@@ -453,6 +497,8 @@ const AboutUs = () => {
         </div>
       </section>
     </Layout>
+    </div>
+
   );
 };
 

@@ -5,12 +5,16 @@ import ReCAPTCHA from "react-google-recaptcha";
 import emailjs from "@emailjs/browser";
 import { Modal } from "react-bootstrap";
 import { getRequest, postFormData } from "../api/api";
+import { Helmet } from "react-helmet-async";
+
 
 const SITE_KEY = process.env.REACT_APP_CAPTCHA_SITE_KEY;
 
 const ContactUs = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
+    const [meta, setMeta] = useState(null);
+  
 
   const fetchData = async () => {
     const res = await getRequest("/contact/page");
@@ -45,6 +49,17 @@ const ContactUs = () => {
   };
 
   console.log(OtherData, "gfhbh");
+
+   useEffect(() => {
+      const fetchMetaData = async () => {
+        const res = await getRequest("/mastermetadata/contact");
+        if (res.success && res.data.length > 0) {
+           console.log("Meta from API:", res.data[0]);
+          setMeta(res.data[0]); // assuming the backend returns an array
+        }
+      };
+      fetchMetaData();
+    }, []);
 
   useEffect(() => {
     fetchData();
@@ -163,7 +178,14 @@ const ContactUs = () => {
   };
   
 
-  return (
+  return (<>
+    {meta?.metaTitle && (
+            <Helmet>
+              <title>{meta.metaTitle}</title>
+              <meta name="description" content={meta.metaDescription} />
+              <meta name="keywords" content={meta.metaKeywords} />
+            </Helmet>
+          )}
     <Layout>
       <section className='about-banner'>
         <div className='container-fluid'>
@@ -490,6 +512,7 @@ const ContactUs = () => {
         </Modal>
       ) : null}
     </Layout>
+    </>
   );
 };
 

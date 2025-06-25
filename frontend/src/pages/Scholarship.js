@@ -3,10 +3,14 @@ import Layout from "../components/Layout";
 import { NavLink } from "react-router-dom";
 import AwardeesSlider from "../components/AwardeesSlider";
 import { getRequest } from "../api/api";
+import { Helmet } from "react-helmet-async";
+
 
 const Scholarship = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
+    const [meta, setMeta] = useState(null);
+  
 
   const fetchData = async () => {
     const res = await getRequest("/scholarships/overview");
@@ -72,6 +76,17 @@ const Scholarship = () => {
 
   console.log(OtherData, "gfhbh");
 
+   useEffect(() => {
+      const fetchMetaData = async () => {
+        const res = await getRequest("/mastermetadata/scholarship");
+        if (res.success && res.data.length > 0) {
+           console.log("Meta from API:", res.data[0]);
+          setMeta(res.data[0]); // assuming the backend returns an array
+        }
+      };
+      fetchMetaData();
+    }, []);
+
   useEffect(() => {
     fetchData();
     fetchOtherData();
@@ -84,6 +99,14 @@ const Scholarship = () => {
   }, []);
 
   return (
+    <div>
+            {meta?.metaTitle && (
+            <Helmet>
+              <title>{meta.metaTitle}</title>
+              <meta name="description" content={meta.metaDescription} />
+              <meta name="keywords" content={meta.metaKeywords} />
+            </Helmet>
+          )}
     <Layout>
       <section className='about-banner'>
   <div className='container-fluid'>
@@ -671,6 +694,8 @@ const Scholarship = () => {
         </div>
       </section>
     </Layout>
+    </div>
+
   );
 };
 

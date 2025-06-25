@@ -1,42 +1,89 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { getRequest } from "../api/api";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+
 
 const NewsDetail = () => {
+  //  const { id } = useParams();
+const { pageUrl } = useParams();
+const [relatedNews, setRelatedNews] = useState([]);
+      const [meta, setMeta] = useState(null);
+
+
   const [visibleCount, setVisibleCount] = useState(2);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const fetchData = async () => {
-    const res = await getRequest("/newsEvents");
-    if (res.success) {
-      setData(res.data);
-    } else {
-    }
-  };
+  const res = await getRequest(`/newsEvents/page/${pageUrl}`);
+  if (res.success) {
+    setData(res.data.data); // your backend returns { success: true, data: {...} }
+  }
+};
+
+//   const fetchData = async () => {
+//     const res = await getRequest(`/newsEvents/${id}`);
+//     if (res.success) {
+// setData(res.data.data);
+//     }
+//   };
   console.log(data, "uihuyg");
 
+  // useEffect(() => {
+  //   fetchData();
+  //   // setData((prev) =>
+  //   //   prev.map((item) => ({
+  //   //     ...item,
+  //   //     checked: false,
+  //   //   }))
+  //   // );
+  // }, []);
+
+  // useEffect(() => {
+  //   if (id) fetchData();
+  // }, [id]);
+
   useEffect(() => {
-    fetchData();
-    // setData((prev) =>
-    //   prev.map((item) => ({
-    //     ...item,
-    //     checked: false,
-    //   }))
-    // );
-  }, []);
+          const fetchMetaData = async () => {
+            const res = await getRequest("/mastermetadata/news");
+            if (res.success && res.data.length > 0) {
+               console.log("Meta from API:", res.data[0]);
+              setMeta(res.data[0]); // assuming the backend returns an array
+            }
+          };
+          fetchMetaData();
+        }, []);
+
+ useEffect(() => {
+  const fetchCurrentAndRelated = async () => {
+    const currentRes = await getRequest(`/newsEvents/page/${pageUrl}`);
+    if (currentRes.success) {
+      const currentItem = currentRes.data.data;
+      setData(currentItem);
+
+      // Fetch all news and filter out the current one
+      const allRes = await getRequest("/newsEvents");
+      if (allRes.success) {
+        const filtered = allRes.data.filter(
+          (item) => item.pageUrl !== currentItem.pageUrl
+        );
+        setRelatedNews(filtered);
+      }
+    }
+  };
+
+  if (pageUrl) fetchCurrentAndRelated();
+}, [pageUrl]);
+
 
   const relatedNewsItems = [
     {
       image: "/images/smiling-students-looking-globe.png",
       date: "00.00.00",
-      title: (
-        <p>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: data?.metaDescription,
-            }}
-          />
-        </p>
-      ),
+      title: "Lorem ipsum dolor sit amet",
+
+
+      
     },
     {
       image: "/images/smiling-students-looking-globe.png",
@@ -89,50 +136,53 @@ const NewsDetail = () => {
   };
 
   return (
+    <>
+    {meta?.metaTitle && (
+                    <Helmet>
+                      <title>{meta.metaTitle}</title>
+                      <meta name="description" content={meta.metaDescription} />
+                      <meta name="keywords" content={meta.metaKeywords} />
+                    </Helmet>
+                  )}
     <Layout>
-     {data?.map((newsItem, index) => (
-  <section className='news-detail-banner' key={index}>
-    <div className='container-fluid'>
-      <div className='row align-items-center'>
-        <div className='col-lg-5'>
-          <div className='news-detail-img'>
+      {data && (
+  <section className="news-detail-banner">
+    <div className="container-fluid">
+      <div className="row align-items-center mb-5">
+        <div className="col-lg-5">
+          <div className="news-detail-img">
             <img
-              src={newsItem?.image?.url}
-              alt={newsItem?.image?.altText}
-              className='news-detail-banner-img'
+              src={data?.image?.url}
+              alt={data?.image?.altText || "News image"}
+              className="news-detail-banner-img"
             />
           </div>
         </div>
 
-        <div className='col-lg-7 news-detail-banner-section'>
-          <div className='news-detail-content'>
-            <div className='news-detail-content-subsection d-flex align-items-baseline'>
-              <h4>{newsItem?.type?.toUpperCase()}</h4>
+        <div className="col-lg-7 news-detail-banner-section">
+          <div className="news-detail-content">
+            <div className="news-detail-content-subsection d-flex align-items-baseline">
+              <h4>{data?.type?.toUpperCase()}</h4>
               <span></span>
               <h6>
-                {newsItem?.uploadDate
-                  ? new Date(newsItem.uploadDate)
-                      .toLocaleDateString("en-GB")
-                      .replace(/\//g, ".")
+                {data?.uploadDate
+                  ? new Date(data.uploadDate).toLocaleDateString("en-GB").replace(/\//g, ".")
                   : "-"}
               </h6>
             </div>
-            <h1 className='section-title news-detail-title'>
-              {newsItem?.title}
-            </h1>
-
+            <h1 className="section-title news-detail-title">{data?.title}</h1>
             <div
-              className='paragraph bridge-para text-justify'
-              dangerouslySetInnerHTML={{
-                __html: newsItem?.content,
-              }}
+              className="paragraph bridge-para text-justify"
+              dangerouslySetInnerHTML={{ __html: data?.content }}
             />
           </div>
         </div>
       </div>
     </div>
   </section>
-))}
+)}
+
+
 
       <section className='news-video-section'>
         <div className='container'>
@@ -213,7 +263,8 @@ const NewsDetail = () => {
         <div className='container'>
           <div className='row align-items-center mb-5'>
             <div className='col-lg-6'>
-              <h2 className='section-title'>{data?.metaTitle}</h2>
+              {/* <h2 className='section-title'>{data?.metaTitle}</h2> */}
+              <h2 className='section-title'>Related News</h2>
             </div>
             <div className='col-lg-6 d-flex justify-content-lg-end justify-content-start'>
               {/* <h5 className="see-all-btn"> */}
@@ -232,33 +283,34 @@ const NewsDetail = () => {
           </div>
 
           <div className='row'>
-            {relatedNewsItems.slice(0, visibleCount).map((item, index) => (
-              <div className='col-lg-6 mb-5'>
-                <div className='row related-news align-items-center'>
-                  <div className='col-lg-7'>
-                    <img
-                      src={item.image}
-                      alt={`news-${index}`}
-                      className='w-100'
-                    />
-                  </div>
-                  <div className='col-lg-5'>
-                    <div className='related-news-content mt-lg-0 mt-4'>
-                      <div className='related-news-time'>
-                        <h5>NEWS</h5>
-                        <span></span>
-                        <h6>{item.date}</h6>
-                      </div>
-                      <p>{item.title}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {relatedNews.slice(0, visibleCount).map((item, index) => (
+              <div className='col-lg-6 mb-5' key={item._id}>
+  <div className='row related-news align-items-center'>
+    <div className='col-lg-7'>
+      <img
+        src={item.image?.url}
+        alt={item.image?.altText || `related-news-${index}`}
+        className='w-100'
+      />
+    </div>
+    <div className='col-lg-5'>
+      <div className='related-news-content mt-lg-0 mt-4'>
+        <div className='related-news-time'>
+          <h5>{item.type?.toUpperCase()}</h5>
+          <span></span>
+          <h6>{new Date(item.uploadDate).toLocaleDateString("en-GB").replace(/\//g, ".")}</h6>
+        </div>
+        <p>{item.title}</p>
+      </div>
+    </div>
+  </div>
+</div>
             ))}
           </div>
         </div>
       </section>
     </Layout>
+    </>
   );
 };
 

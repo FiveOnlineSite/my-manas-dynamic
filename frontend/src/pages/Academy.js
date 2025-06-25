@@ -6,10 +6,14 @@ import Testimonials from "../components/Testimonials";
 import ReachOut from "../components/ReachOut";
 import FacilitiesSlider from "../components/FacilitiesSlider";
 import { getRequest } from "../api/api";
+import { Helmet } from "react-helmet-async";
+
 
 const Academy = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
+        const [meta, setMeta] = useState(null);
+  
 
   const fetchData = async () => {
     const res = await getRequest("/academy/history");
@@ -59,10 +63,18 @@ const Academy = () => {
           responses[7].status === "fulfilled"
             ? responses[7].value.data[3]
             : null,
+        // masterquote:
+        //   responses[8].status === "fulfilled"
+        //     ? responses[8].value.data
+        //     : null,
+
         masterquote:
-          responses[8].status === "fulfilled"
-            ? responses[8].value.data
-            : null,
+  responses[8].status === "fulfilled"
+    ? responses[8].value.data.reduce((acc, item) => {
+        if (item.page) acc[item.page] = item;
+        return acc;
+      }, {})
+    : null,
       };
 
       setOtherData(resultObj);
@@ -72,6 +84,17 @@ const Academy = () => {
   };
 
   console.log(OtherData, "gfhbh");
+
+    useEffect(() => {
+          const fetchMetaData = async () => {
+            const res = await getRequest("/mastermetadata/academy");
+            if (res.success && res.data.length > 0) {
+               console.log("Meta from API:", res.data[0]);
+              setMeta(res.data[0]); // assuming the backend returns an array
+            }
+          };
+          fetchMetaData();
+        }, []);
 
   useEffect(() => {
     fetchData();
@@ -84,66 +107,54 @@ const Academy = () => {
     // );
   }, []);
 
-  const facilityTitles = [
-  "Sports & Recreational Areas",
-  "Extracurriculars",
-  "Classroom & Labs",
-  "Student Exhibition",
-];
+const facilities = (OtherData?.facilities || []).map((item, index) => {
+  const resources = item.resources || {};
 
-const defaultThumbnails = [
-  "/images/slider/Basketball_2024.jpg",
-  "/images/slider/Dance Team02.jpeg",
-  "/images/slider/Gayatri 01.jpeg",
-  "/images/slider/Exhibit01.jpeg",
-];
+  // Videos: include main video + moreFeaturedVideos[]
+  const mainVideo = resources.video?.url
+    ? {
+        video_thumbnail: resources.featuredVideoThumbnail?.url || resources.image?.url || "",
+        src: resources.video.url,
+      }
+    : null;
 
-const defaultVideos = [
-  "/videos/MA Third Annual Exhibition Jan13-2025 (1).mp4",
-];
+  const additionalVideos = (resources.moreFeaturedVideos || []).map((v) => ({
+    video_thumbnail: v.thumbnail?.url || "",
+    src: v.video?.url || "",
+  }));
 
-const defaultImages = [
-  ["/images/slider/DSC02077.jpg", "/images/slider/DSC02167.jpg"],
-];
+  const allVideos = [
+    ...(mainVideo ? [mainVideo] : []),
+    ...additionalVideos,
+  ];
 
-const facilities = (OtherData?.facilities || []).map((facility, index) => {
-  const resources = facility?.resources || {};
-  const moreImages = resources.moreFeaturedImages || [];
-  const moreVideos = resources.moreFeaturedVideos || [];
+  // Images: include featured + moreFeaturedImages[]
+  const allImages = [
+    ...(resources.featuredImage?.url ? [resources.featuredImage.url] : []),
+    ...(resources.moreFeaturedImages || []).map((img) => img.url || ""),
+  ];
+
+  // Optional: fallback image for card display
+  const fallbackImage =
+    resources.image?.url || "/images/slider/default_placeholder.jpg";
+
+  // Optional: fallback text if needed
+  const defaultTitles = [
+    "Sports & Recreational Areas",
+    "Extracurriculars",
+    "Classroom & Labs",
+    "Student Exhibition",
+  ];
 
   return {
-    image: resources.image?.url || defaultThumbnails[index] || "",
-    text: facilityTitles[index] || `Facility ${index + 1}`,
+    image: fallbackImage,
+      text: item.sliderText?.trim() || defaultTitles[index] || `Facility ${index + 1}`,
     modal_data: {
-      modal_images:
-        index === 3
-          ? defaultImages[0]
-          : [
-              resources.featuredImage?.url,
-              ...(moreImages.map((img) => img.url).filter(Boolean) || []),
-            ],
-      videos:
-        index === 3
-          ? [
-              {
-                video_thumbnail: defaultThumbnails[3],
-                src: defaultVideos[0],
-              },
-            ]
-          : [
-              {
-                video_thumbnail: resources.image?.url || defaultThumbnails[index],
-                src: resources.video?.url || "",
-              },
-              ...(moreVideos.map((vid, i) => ({
-                video_thumbnail: moreImages[i]?.url || defaultThumbnails[index],
-                src: vid?.url || "",
-              })) || []),
-            ],
+      videos: allVideos,
+      modal_images: allImages,
     },
   };
 });
-
 
     
 const facilityCount = OtherData?.facilities?.length || 0;
@@ -183,6 +194,14 @@ const facilitiesSettings = {
 
 
   return (
+    <div>
+               {meta?.metaTitle && (
+                    <Helmet>
+                      <title>{meta.metaTitle}</title>
+                      <meta name="description" content={meta.metaDescription} />
+                      <meta name="keywords" content={meta.metaKeywords} />
+                    </Helmet>
+                  )}
     <Layout>
       <section className='about-banner'>
         <div className='container-fluid'>
@@ -439,21 +458,21 @@ const facilitiesSettings = {
                 <div className='col-lg-10'>
                   {/* <h6 className="section-subtitle">CURRICULUM</h6> */}
 
-                  <h2 className='section-title text-center'>
-                    {/* An integrated Curriculum at each grade level that prepares
-                    them for life. */}
-                    {OtherData?.masterquote?.[2]?.quote}
-                  </h2>
-                   {OtherData?.masterquote?.[2]?.buttonLink && OtherData?.masterquote?.[2]?.buttonText && (
+                 <h2 className='section-title text-center wow' data-aos='zoom-in' data-aos-duration='1500'>
+  {OtherData?.masterquote?.academy?.quote}
+</h2>
+
+{OtherData?.masterquote?.academy?.buttonLink && OtherData?.masterquote?.academy?.buttonText && (
   <button className='custom-btn bridge-btn read-btn'>
     <NavLink 
-      to={OtherData.masterquote[2].buttonLink}
+      to={OtherData.masterquote.academy.buttonLink}
       className='nav-link'
     >
-      {OtherData.masterquote[2].buttonText}
+      {OtherData.masterquote.academy.buttonText}
     </NavLink>
   </button>
 )}
+
 
                 </div>
 
@@ -761,6 +780,7 @@ const facilitiesSettings = {
         <ReachOut originPage="academy" />
       </section>
     </Layout>
+    </div>
   );
 };
 

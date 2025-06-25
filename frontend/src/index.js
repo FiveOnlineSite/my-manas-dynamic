@@ -6,10 +6,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "aos/dist/aos.css";
 import "animate.css";
+import { HelmetProvider } from "react-helmet-async";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+     <HelmetProvider>
     <App />
-  </React.StrictMode>
+    </HelmetProvider>
+  // </React.StrictMode>
 );
