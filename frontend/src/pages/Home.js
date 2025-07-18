@@ -21,16 +21,16 @@ const Home = () => {
     } catch (error) { }
   };
 
-//   const fetchMetaData = async () => {
-//   try {
-//     const res = await getRequest("/mastermetadata/home");
-//     if (res.success && res.data.length > 0) {
-//       setMeta(res.data[0]); // save first match
-//     }
-//   } catch (err) {
-//     console.error("Failed to load meta data");
-//   }
-// };
+  //   const fetchMetaData = async () => {
+  //   try {
+  //     const res = await getRequest("/mastermetadata/home");
+  //     if (res.success && res.data.length > 0) {
+  //       setMeta(res.data[0]); // save first match
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to load meta data");
+  //   }
+  // };
 
   const fetchOtherData = async () => {
     try {
@@ -64,12 +64,12 @@ const Home = () => {
         //     : null,
 
         masterquote:
-  responses[4].status === "fulfilled"
-    ? responses[4].value.data.reduce((acc, item) => {
-        if (item.page) acc[item.page] = item;
-        return acc;
-      }, {})
-    : null,
+          responses[4].status === "fulfilled"
+            ? responses[4].value.data.reduce((acc, item) => {
+              if (item.page) acc[item.page] = item;
+              return acc;
+            }, {})
+            : null,
 
       };
 
@@ -81,17 +81,17 @@ const Home = () => {
 
   console.log(OtherData, "gfhbh");
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchMetaData = async () => {
       const res = await getRequest("/mastermetadata/home");
       if (res.success && res.data.length > 0) {
-         console.log("Meta from API:", res.data[0]);
+        console.log("Meta from API:", res.data[0]);
         setMeta(res.data[0]); // assuming the backend returns an array
       }
     };
     fetchMetaData();
   }, []);
-  
+
   useEffect(() => {
     fetchBannerData();
     fetchOtherData();
@@ -129,12 +129,12 @@ const Home = () => {
   // ];
 
   const homeBanner = OtherData?.gallery?.map((item, index) => {
-  return {
-    image: item.url || null,
-    video: item.url2 || null,
-    video_thumbnail: item.thumbnail || null, // optional if available
-  };
-}) || [];
+    return {
+      image: item.url || null,
+      video: item.url2 || null,
+      video_thumbnail: item.thumbnail || null, // optional if available
+    };
+  }) || [];
 
 
   const homeBannerSettings = {
@@ -163,7 +163,7 @@ const Home = () => {
   };
   return (
     <div>
-          {meta?.metaTitle && (
+      {meta?.metaTitle && (
         <Helmet>
           <title>{meta.metaTitle}</title>
           <meta name="description" content={meta.metaDescription} />
@@ -264,11 +264,14 @@ const Home = () => {
                 >
                   <div dangerouslySetInnerHTML={{ __html: data.description }} />
                 </p>
-                <NavLink to={data.buttonLink}>
-                  <button className='custom-btn white-btn wow'>
-                    <li className='nav-link'>{data.buttonText}</li>
-                  </button>
-                </NavLink>
+                {data.buttonLink && data.buttonText && (
+                  <NavLink to={data.buttonLink}>
+                    <button className='custom-btn white-btn wow'>
+                      <li className='nav-link'>{data.buttonText}</li>
+                    </button>
+                  </NavLink>
+                )}
+
               </div>
             </div>
           </div>
@@ -459,37 +462,37 @@ const Home = () => {
                       </div> */}
 
                       <div className='accordion' id='strategiesAccordion'>
-  {OtherData?.mission?.accordions?.map((item, index) => {
-    const isFirst = index === 0;
-    const collapseId = `strategy${index + 1}`;
+                        {OtherData?.mission?.accordions?.map((item, index) => {
+                          const isFirst = index === 0;
+                          const collapseId = `strategy${index + 1}`;
 
-    return (
-      <div className='accordion-item' key={index}>
-        <h2 className='accordion-header'>
-          <button
-            className={`accordion-button ${!isFirst ? 'collapsed' : ''}`}
-            type='button'
-            data-bs-toggle='collapse'
-            data-bs-target={`#${collapseId}`}
-            aria-expanded={isFirst ? 'true' : 'false'}
-            aria-controls={collapseId}
-          >
-            {item.title}
-          </button>
-        </h2>
-        <div
-          id={collapseId}
-          className={`accordion-collapse collapse ${isFirst ? 'show' : ''}`}
-          data-bs-parent='#strategiesAccordion'
-        >
-          <div className='accordion-body'>
-            <p>{item.description}</p>
-          </div>
-        </div>
-      </div>
-    );
-  })}
-</div>
+                          return (
+                            <div className='accordion-item' key={index}>
+                              <h2 className='accordion-header'>
+                                <button
+                                  className={`accordion-button ${!isFirst ? 'collapsed' : ''}`}
+                                  type='button'
+                                  data-bs-toggle='collapse'
+                                  data-bs-target={`#${collapseId}`}
+                                  aria-expanded={isFirst ? 'true' : 'false'}
+                                  aria-controls={collapseId}
+                                >
+                                  {item.title}
+                                </button>
+                              </h2>
+                              <div
+                                id={collapseId}
+                                className={`accordion-collapse collapse ${isFirst ? 'show' : ''}`}
+                                data-bs-parent='#strategiesAccordion'
+                              >
+                                <div className='accordion-body'>
+                                  <p>{item.description}</p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
 
                     </div>
                   </div>
@@ -536,16 +539,16 @@ const Home = () => {
   </button>
 )} */}
 
-{OtherData?.masterquote?.home?.buttonLink && OtherData?.masterquote?.home?.buttonText && (
-  <button className='custom-btn bridge-btn read-btn'>
-    <NavLink 
-      to={OtherData.masterquote.home.buttonLink}
-      className='nav-link'
-    >
-      {OtherData.masterquote.home.buttonText}
-    </NavLink>
-  </button>
-)}
+              {OtherData?.masterquote?.home?.buttonLink && OtherData?.masterquote?.home?.buttonText && (
+                <button className='custom-btn bridge-btn read-btn'>
+                  <NavLink
+                    to={OtherData.masterquote.home.buttonLink}
+                    className='nav-link'
+                  >
+                    {OtherData.masterquote.home.buttonText}
+                  </NavLink>
+                </button>
+              )}
 
 
               {/* <button className="custom-btn bridge-btn read-btn">
