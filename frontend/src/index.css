@@ -1356,6 +1356,7 @@ button.slick-next {
 .grades-div .single-value {
   border: 1px solid var(--black-font);
   border-radius: 15px;
+  padding-top: unset;
 }
 
 .grade-para {
