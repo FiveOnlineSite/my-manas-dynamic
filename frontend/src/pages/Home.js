@@ -7,7 +7,6 @@ import Testimonials from "../components/Testimonials";
 import { getRequest } from "../api/api";
 import { Helmet } from "react-helmet-async";
 
-
 const Home = () => {
   const [data, setData] = useState([]);
   const [OtherData, setOtherData] = useState([]);
@@ -18,19 +17,19 @@ const Home = () => {
       const result = await getRequest("/home/banner");
 
       setData(result.data[0]);
-    } catch (error) { }
+    } catch (error) {}
   };
 
-//   const fetchMetaData = async () => {
-//   try {
-//     const res = await getRequest("/mastermetadata/home");
-//     if (res.success && res.data.length > 0) {
-//       setMeta(res.data[0]); // save first match
-//     }
-//   } catch (err) {
-//     console.error("Failed to load meta data");
-//   }
-// };
+  //   const fetchMetaData = async () => {
+  //   try {
+  //     const res = await getRequest("/mastermetadata/home");
+  //     if (res.success && res.data.length > 0) {
+  //       setMeta(res.data[0]); // save first match
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to load meta data");
+  //   }
+  // };
 
   const fetchOtherData = async () => {
     try {
@@ -55,22 +54,19 @@ const Home = () => {
             ? responses[2].value.data[0]
             : null,
         testimonials:
-          responses[3].status === "fulfilled"
-            ? responses[3].value.data
-            : null,
+          responses[3].status === "fulfilled" ? responses[3].value.data : null,
         // masterquote:
         //   responses[4].status === "fulfilled"
         //     ? responses[4].value.data
         //     : null,
 
         masterquote:
-  responses[4].status === "fulfilled"
-    ? responses[4].value.data.reduce((acc, item) => {
-        if (item.page) acc[item.page] = item;
-        return acc;
-      }, {})
-    : null,
-
+          responses[4].status === "fulfilled"
+            ? responses[4].value.data.reduce((acc, item) => {
+                if (item.page) acc[item.page] = item;
+                return acc;
+              }, {})
+            : null,
       };
 
       setOtherData(resultObj);
@@ -81,21 +77,21 @@ const Home = () => {
 
   console.log(OtherData, "gfhbh");
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchMetaData = async () => {
       const res = await getRequest("/mastermetadata/home");
       if (res.success && res.data.length > 0) {
-         console.log("Meta from API:", res.data[0]);
+        console.log("Meta from API:", res.data[0]);
         setMeta(res.data[0]); // assuming the backend returns an array
       }
     };
     fetchMetaData();
   }, []);
-  
+
   useEffect(() => {
     fetchBannerData();
     fetchOtherData();
-    //  fetchMetaData(); 
+    //  fetchMetaData();
     // setData((prev) =>
     //   prev.map((item) => ({
     //     ...item,
@@ -128,14 +124,14 @@ const Home = () => {
   //   },
   // ];
 
-  const homeBanner = OtherData?.gallery?.map((item, index) => {
-  return {
-    image: item.url || null,
-    video: item.url2 || null,
-    video_thumbnail: item.thumbnail || null, // optional if available
-  };
-}) || [];
-
+  const homeBanner =
+    OtherData?.gallery?.map((item, index) => {
+      return {
+        image: item.url || null,
+        video: item.url2 || null,
+        video_thumbnail: item.thumbnail || null, // optional if available
+      };
+    }) || [];
 
   const homeBannerSettings = {
     dots: false,
@@ -163,7 +159,7 @@ const Home = () => {
   };
   return (
     <div>
-          {meta?.metaTitle && (
+      {meta?.metaTitle && (
         <Helmet>
           <title>{meta.metaTitle}</title>
           <meta name="description" content={meta.metaDescription} />
@@ -232,41 +228,41 @@ const Home = () => {
             </div>
           </div>
         </section> */}
-        <section className='banner-two'>
-          <div className='container-fluid'>
-            <div className='banner-img'>
+        <section className="banner-two">
+          <div className="container-fluid">
+            <div className="banner-img">
               <img
                 src={data.images?.desktop?.url}
                 alt={data.images?.desktop?.altText}
-                width='100%'
-                className='banner-image desktop-banner'
+                width="100%"
+                className="banner-image desktop-banner"
               />
               <img
                 src={data.images?.mobile?.url}
                 alt={data.images?.mobile?.altText}
-                className='banner-image mobile-banner'
+                className="banner-image mobile-banner"
               />
             </div>
 
-            <div className='banner-content'>
-              <div className='banner-text'>
+            <div className="banner-content">
+              <div className="banner-text">
                 <h1
-                  className='banner-title wow'
-                  data-aos='fade-up'
-                  data-aos-duration='1500'
+                  className="banner-title wow"
+                  data-aos="fade-up"
+                  data-aos-duration="1500"
                 >
                   {data.title}
                 </h1>
                 <p
-                  className='paragraph wow'
-                  data-aos='fade-up'
-                  data-aos-duration='1500'
+                  className="paragraph"
+                  // data-aos='fade-up'
+                  // data-aos-duration='1500'
                 >
                   <div dangerouslySetInnerHTML={{ __html: data.description }} />
                 </p>
                 <NavLink to={data.buttonLink}>
-                  <button className='custom-btn white-btn wow'>
-                    <li className='nav-link'>{data.buttonText}</li>
+                  <button className="custom-btn white-btn">
+                    <li className="nav-link">{data.buttonText}</li>
                   </button>
                 </NavLink>
               </div>
@@ -274,22 +270,22 @@ const Home = () => {
           </div>
         </section>
 
-        <section className='bridging-gap'>
-          <div className='container'>
-            <div className='col-lg-12'>
-              <div className='row'>
+        <section className="bridging-gap">
+          <div className="container">
+            <div className="col-lg-12">
+              <div className="row">
                 <div
-                  className='col-lg-6'
-                  data-aos='fade-right' // Fade in as you scroll
-                  data-aos-duration='1500'
+                  className="col-lg-6"
+                  data-aos="fade-right" // Fade in as you scroll
+                  data-aos-duration="1500"
                 >
-                  <div className='bridging-img'>
+                  <div className="bridging-img">
                     <img
-                      src='/images/banner/Vector 6.png'
-                      alt='vector-6'
-                      className='bridging-img1'
+                      src="/images/banner/Vector 6.png"
+                      alt="vector-6"
+                      className="bridging-img1"
                     />
-                    <div className='bridging-img2'>
+                    <div className="bridging-img2">
                       <img
                         src={OtherData?.aboutus?.image?.url}
                         alt={OtherData?.aboutus?.image?.url}
@@ -297,27 +293,27 @@ const Home = () => {
                     </div>
 
                     <img
-                      src='/images/banner/Vector 7.png'
-                      alt='vector-7'
-                      className='bridging-img3'
+                      src="/images/banner/Vector 7.png"
+                      alt="vector-7"
+                      className="bridging-img3"
                     />
                   </div>
                 </div>
                 <div
-                  className='col-lg-6 wow'
-                  data-aos='fade-left' // Fade in as you scroll
-                  data-aos-duration='1500'
+                  className="col-lg-6 wow"
+                  data-aos="fade-left" // Fade in as you scroll
+                  data-aos-duration="1500"
                 >
-                  <div className='bridging-text'>
-                    <h6 className='section-subtitle'>
+                  <div className="bridging-text">
+                    <h6 className="section-subtitle">
                       {OtherData?.aboutus?.subtitle}
                     </h6>
 
-                    <h2 className='section-title'>
+                    <h2 className="section-title">
                       {OtherData?.aboutus?.title}
                     </h2>
 
-                    <p className='paragraph bridge-para'>
+                    <p className="paragraph bridge-para">
                       <div
                         dangerouslySetInnerHTML={{
                           __html: OtherData?.aboutus?.description,
@@ -325,10 +321,10 @@ const Home = () => {
                       />
                     </p>
 
-                    <button className='custom-btn bridge-btn'>
+                    <button className="custom-btn bridge-btn">
                       <NavLink
                         to={OtherData?.aboutus?.buttonLink}
-                        className='nav-link'
+                        className="nav-link"
                       >
                         {OtherData?.aboutus?.buttonText}
                       </NavLink>
@@ -340,37 +336,37 @@ const Home = () => {
           </div>
         </section>
 
-        <section className='home-slider'>
-          <div className='row'>
+        <section className="home-slider">
+          <div className="row">
             <div
-              className='home-slick-slider wow'
-              data-aos='zoom-in' // Fade in as you scroll
-              data-aos-duration='1500'
+              className="home-slick-slider wow"
+              data-aos="zoom-in" // Fade in as you scroll
+              data-aos-duration="1500"
             >
               <SlickSlider settings={homeBannerSettings} items={homeBanner} />
             </div>
           </div>
         </section>
 
-        <section className='strategies'>
-          <div className='container'>
-            <div className='col-lg-12'>
-              <div className='row'>
-                <div className='col-lg-7'>
+        <section className="strategies">
+          <div className="container">
+            <div className="col-lg-12">
+              <div className="row">
+                <div className="col-lg-7">
                   <div
-                    className='core-strategies-div wow'
-                    data-aos='fade-right' // Fade in as you scroll
-                    data-aos-duration='1500'
+                    className="core-strategies-div wow"
+                    data-aos="fade-right" // Fade in as you scroll
+                    data-aos-duration="1500"
                   >
-                    <h6 className='section-subtitle'>
+                    <h6 className="section-subtitle">
                       {OtherData?.mission?.subtitle}
                     </h6>
 
-                    <h2 className='section-title'>
+                    <h2 className="section-title">
                       {OtherData?.mission?.title}
                     </h2>
 
-                    <div className='strategies-accordion'>
+                    <div className="strategies-accordion">
                       {/* <div className='accordion' id='strategiesAccordion'>
                         <div className='accordion-item'>
                           <h2 className='accordion-header'>
@@ -458,48 +454,51 @@ const Home = () => {
                         </div>
                       </div> */}
 
-                      <div className='accordion' id='strategiesAccordion'>
-  {OtherData?.mission?.accordions?.map((item, index) => {
-    const isFirst = index === 0;
-    const collapseId = `strategy${index + 1}`;
+                      <div className="accordion" id="strategiesAccordion">
+                        {OtherData?.mission?.accordions?.map((item, index) => {
+                          const isFirst = index === 0;
+                          const collapseId = `strategy${index + 1}`;
 
-    return (
-      <div className='accordion-item' key={index}>
-        <h2 className='accordion-header'>
-          <button
-            className={`accordion-button ${!isFirst ? 'collapsed' : ''}`}
-            type='button'
-            data-bs-toggle='collapse'
-            data-bs-target={`#${collapseId}`}
-            aria-expanded={isFirst ? 'true' : 'false'}
-            aria-controls={collapseId}
-          >
-            {item.title}
-          </button>
-        </h2>
-        <div
-          id={collapseId}
-          className={`accordion-collapse collapse ${isFirst ? 'show' : ''}`}
-          data-bs-parent='#strategiesAccordion'
-        >
-          <div className='accordion-body'>
-            <p>{item.description}</p>
-          </div>
-        </div>
-      </div>
-    );
-  })}
-</div>
-
+                          return (
+                            <div className="accordion-item" key={index}>
+                              <h2 className="accordion-header">
+                                <button
+                                  className={`accordion-button ${
+                                    !isFirst ? "collapsed" : ""
+                                  }`}
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={`#${collapseId}`}
+                                  aria-expanded={isFirst ? "true" : "false"}
+                                  aria-controls={collapseId}
+                                >
+                                  {item.title}
+                                </button>
+                              </h2>
+                              <div
+                                id={collapseId}
+                                className={`accordion-collapse collapse ${
+                                  isFirst ? "show" : ""
+                                }`}
+                                data-bs-parent="#strategiesAccordion"
+                              >
+                                <div className="accordion-body">
+                                  <p>{item.description}</p>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div
-                  className='col-lg-5 wow'
-                  data-aos='fade-left' // Fade in as you scroll
-                  data-aos-duration='1500'
+                  className="col-lg-5 wow"
+                  data-aos="fade-left" // Fade in as you scroll
+                  data-aos-duration="1500"
                 >
-                  <div className='core-strategies-img'>
+                  <div className="core-strategies-img">
                     <img
                       src={OtherData?.mission?.image?.url}
                       alt={OtherData?.mission?.image?.altText}
@@ -511,13 +510,13 @@ const Home = () => {
           </div>
         </section>
 
-        <section className='half-img-section'>
-          <div className='container'>
-            <div className='half-img-text'>
+        <section className="half-img-section">
+          <div className="container">
+            <div className="half-img-text">
               <h2
-                className='section-title text-center wow'
-                data-aos='zoom-in' // Fade in as you scroll
-                data-aos-duration='1500'
+                className="section-title text-center wow"
+                data-aos="zoom-in" // Fade in as you scroll
+                data-aos-duration="1500"
               >
                 {/* {OtherData?.masterquote?.[0]?.quote} */}
 
@@ -536,17 +535,17 @@ const Home = () => {
   </button>
 )} */}
 
-{OtherData?.masterquote?.home?.buttonLink && OtherData?.masterquote?.home?.buttonText && (
-  <button className='custom-btn bridge-btn read-btn'>
-    <NavLink 
-      to={OtherData.masterquote.home.buttonLink}
-      className='nav-link'
-    >
-      {OtherData.masterquote.home.buttonText}
-    </NavLink>
-  </button>
-)}
-
+              {OtherData?.masterquote?.home?.buttonLink &&
+                OtherData?.masterquote?.home?.buttonText && (
+                  <button className="custom-btn bridge-btn read-btn">
+                    <NavLink
+                      to={OtherData.masterquote.home.buttonLink}
+                      className="nav-link"
+                    >
+                      {OtherData.masterquote.home.buttonText}
+                    </NavLink>
+                  </button>
+                )}
 
               {/* <button className="custom-btn bridge-btn read-btn">
                 <NavLink className="nav-link" to="/">
@@ -557,17 +556,17 @@ const Home = () => {
           </div>
         </section>
 
-        <section className='support-section'>
-          <div className='container'>
-            <div className='support-text-div' data-aos='fade-left'>
-              <h2 className='extra-big-text'>Your support is meaningful.</h2>
-              <div className='support-para'>
-                <p className='paragraph bridge-para p-0'>
+        <section className="support-section">
+          <div className="container">
+            <div className="support-text-div" data-aos="fade-left">
+              <h2 className="extra-big-text">Your support is meaningful.</h2>
+              <div className="support-para">
+                <p className="paragraph bridge-para p-0">
                   “Out of 100 students, 29 percent of girls and boys drop out of
                   school before completing the full cycle of elementary
                   education, and often they are the most marginalized children.”
                 </p>
-                <p className='paragraph bridge-para unicef'>©UNICEF</p>
+                <p className="paragraph bridge-para unicef">©UNICEF</p>
               </div>
             </div>
           </div>
@@ -575,37 +574,37 @@ const Home = () => {
 
         <Testimonials testimonials={OtherData?.testimonials || []} />
 
-        <section className='news-events d-none'>
-          <div className='container'>
-            <div className='col-lg-12'>
-              <div className='row'>
+        <section className="news-events d-none">
+          <div className="container">
+            <div className="col-lg-12">
+              <div className="row">
                 <div
-                  className='col-lg-5 order-lg-1 order-2 wow'
-                  data-aos='fade-right'
-                  data-aos-duration='1500'
+                  className="col-lg-5 order-lg-1 order-2 wow"
+                  data-aos="fade-right"
+                  data-aos-duration="1500"
                 >
-                  <div className='news-events-text'>
-                    <h6 className='section-subtitle'>NEWS & EVENTS</h6>
+                  <div className="news-events-text">
+                    <h6 className="section-subtitle">NEWS & EVENTS</h6>
 
-                    <div className='d-flex justify-content-between w-100'>
-                      <h2 className='section-title'>Editor’s Pick</h2>
-                      <NavLink to='/' onClick={() => window.scrollTo(0, 0)}>
-                        <div className='d-flex align-items-start'>
-                          <img src='/images/icons/Group 8189.png' alt='arrow' />
+                    <div className="d-flex justify-content-between w-100">
+                      <h2 className="section-title">Editor’s Pick</h2>
+                      <NavLink to="/" onClick={() => window.scrollTo(0, 0)}>
+                        <div className="d-flex align-items-start">
+                          <img src="/images/icons/Group 8189.png" alt="arrow" />
                         </div>
                       </NavLink>
                     </div>
 
-                    <div className='events-div'>
+                    <div className="events-div">
                       <NavLink
-                        className='nav-link'
-                        to='/'
+                        className="nav-link"
+                        to="/"
                         onClick={() => window.scrollTo(0, 0)}
                       >
-                        <div className='single-event d-flex'>
-                          <img src='/images/icons/Group 8179.png' alt='arrow' />
-                          <div className='ps-3'>
-                            <div className='event-single-div d-flex'>
+                        <div className="single-event d-flex">
+                          <img src="/images/icons/Group 8179.png" alt="arrow" />
+                          <div className="ps-3">
+                            <div className="event-single-div d-flex">
                               <h6>NEWS</h6>
                               <span>.</span>
                               <h6>Apr 21, 2020</h6>
@@ -617,14 +616,14 @@ const Home = () => {
                       </NavLink>
 
                       <NavLink
-                        className='nav-link'
-                        to='/'
+                        className="nav-link"
+                        to="/"
                         onClick={() => window.scrollTo(0, 0)}
                       >
-                        <div className='single-event d-flex'>
-                          <img src='/images/icons/Group 8179.png' alt='arrow' />
-                          <div className='ps-3'>
-                            <div className='event-single-div d-flex'>
+                        <div className="single-event d-flex">
+                          <img src="/images/icons/Group 8179.png" alt="arrow" />
+                          <div className="ps-3">
+                            <div className="event-single-div d-flex">
                               <h6>EVENT</h6>
                               <span>.</span>
                               <h6>Apr 21, 2020</h6>
@@ -636,14 +635,14 @@ const Home = () => {
                       </NavLink>
 
                       <NavLink
-                        className='nav-link'
-                        to='/'
+                        className="nav-link"
+                        to="/"
                         onClick={() => window.scrollTo(0, 0)}
                       >
-                        <div className='single-event d-flex'>
-                          <img src='/images/icons/Group 8179.png' alt='arrow' />
-                          <div className='ps-3'>
-                            <div className='event-single-div d-flex'>
+                        <div className="single-event d-flex">
+                          <img src="/images/icons/Group 8179.png" alt="arrow" />
+                          <div className="ps-3">
+                            <div className="event-single-div d-flex">
                               <h6>NEWS</h6>
                               <span>.</span>
                               <h6>Apr 21, 2020</h6>
@@ -657,17 +656,17 @@ const Home = () => {
                   </div>
                 </div>
                 <div
-                  className='col-lg-7 order-lg-2 order-1 wow'
-                  data-aos='fade-left'
-                  data-aos-duration='1500'
+                  className="col-lg-7 order-lg-2 order-1 wow"
+                  data-aos="fade-left"
+                  data-aos-duration="1500"
                 >
-                  <div className='news-img'>
+                  <div className="news-img">
                     <img
-                      src='/images/banner/A7402698 1.png'
-                      alt='banner'
-                      className='w-100'
+                      src="/images/banner/A7402698 1.png"
+                      alt="banner"
+                      className="w-100"
                     />
-                    <div className='hope-div'>
+                    <div className="hope-div">
                       <h2>Hope after horror in Congo: Idir’s story</h2>
 
                       <p>
@@ -677,9 +676,9 @@ const Home = () => {
                         qui quis recusandae.
                       </p>
 
-                      <div className='news-time-div'>
+                      <div className="news-time-div">
                         <span></span>
-                        <div className='news-time'>
+                        <div className="news-time">
                           <h6>Event</h6>
                           <span>.</span>
                           <h6>Apr 21, 2020</h6>
@@ -688,10 +687,10 @@ const Home = () => {
                         </div>
                       </div>
 
-                      <button className='custom-btn bridge-btn read-btn mt-3 mb-0'>
+                      <button className="custom-btn bridge-btn read-btn mt-3 mb-0">
                         <NavLink
-                          className='nav-link'
-                          to='/'
+                          className="nav-link"
+                          to="/"
                           onClick={() => window.scrollTo(0, 0)}
                         >
                           LEARN MORE
