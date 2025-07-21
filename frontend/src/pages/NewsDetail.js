@@ -184,7 +184,7 @@ const [relatedNews, setRelatedNews] = useState([]);
 
 
 
-      <section className='news-video-section'>
+      {/* <section className='news-video-section'>
         <div className='container'>
           <video
             src='/videos/05 - Ram Mandir.mp4'
@@ -192,7 +192,27 @@ const [relatedNews, setRelatedNews] = useState([]);
             className='w-100'
           ></video>
         </div>
-      </section>
+      </section> */}
+
+
+      {data?.video?.url && (
+  <section className='news-video-section'>
+    <div className='container'>
+      <video
+        src={data.video.url}
+        controls
+        className='w-100'
+        style={{
+          borderRadius: "8px",
+          backgroundColor: "#000",
+        }}
+      >
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </section>
+)}
+
 
       {/* <section className="new-detail-para">
         <div className="container">

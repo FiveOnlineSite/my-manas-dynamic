@@ -106,39 +106,39 @@ const Vidhya = () => {
     //   }))i
     // );
   }, []);
-const facilityTitles = [
-  "Sports & Recreational Areas",
-  "Extracurriculars",
-  "Classroom & Labs",
-  "Student Exhibition",
-];
+// const facilityTitles = [
+//   "Sports & Recreational Areas",
+//   "Extracurriculars",
+//   "Classroom & Labs",
+//   "Student Exhibition",
+// ];
 
-const fallbackImages = [
-  "/images/slider/Lab08.jpeg",
-  "/images/slider/Lab07.jpeg",
-  "/images/slider/Lab09.jpeg",
-  "/images/slider/Exhibit01.jpeg",
-];
+// const fallbackImages = [
+//   "/images/slider/Lab08.jpeg",
+//   "/images/slider/Lab07.jpeg",
+//   "/images/slider/Lab09.jpeg",
+//   "/images/slider/Exhibit01.jpeg",
+// ];
 
-const fallbackModalImages = [
-  ["/images/slider/A7402682.jpg", "/images/slider/KG Students 04.jpg"],
-  [
-    "/images/slider/DSC04685.jpg",
-    "/images/slider/Dance Team02.jpeg",
-    "/images/slider/DSC04762.jpg",
-    "/images/slider/DSC04905.jpg",
-    "/images/slider/Exhibition India.jpeg",
-    "/images/slider/Exhibition Smart Village.jpeg",
-    "/images/slider/OurScope-08.jpeg",
-  ],
-  ["/images/slider/AboutUs-03.jpeg", "/images/slider/Gayatri 01.jpeg"],
-];
+// const fallbackModalImages = [
+//   ["/images/slider/A7402682.jpg", "/images/slider/KG Students 04.jpg"],
+//   [
+//     "/images/slider/DSC04685.jpg",
+//     "/images/slider/Dance Team02.jpeg",
+//     "/images/slider/DSC04762.jpg",
+//     "/images/slider/DSC04905.jpg",
+//     "/images/slider/Exhibition India.jpeg",
+//     "/images/slider/Exhibition Smart Village.jpeg",
+//     "/images/slider/OurScope-08.jpeg",
+//   ],
+//   ["/images/slider/AboutUs-03.jpeg", "/images/slider/Gayatri 01.jpeg"],
+// ];
 
-const fallbackVideos = [
-  "/videos/lv_0_20250221192257.mp4",
-  "/videos/lv_0_20250221192441.mp4",
-  "/videos/lv_0_20250221192441.mp4",
-];
+// const fallbackVideos = [
+//   "/videos/lv_0_20250221192257.mp4",
+//   "/videos/lv_0_20250221192441.mp4",
+//   "/videos/lv_0_20250221192441.mp4",
+// ];
 
 // const facilities = (OtherData?.facilities || []).map((facility, index) => {
 //   const resources = facility?.resources || {};

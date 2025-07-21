@@ -1358,6 +1358,10 @@ button.slick-next {
   border-radius: 15px;
 }
 
+.grades-div .single-value p{
+  padding-top: unset;
+}
+
 .grade-para {
   min-height: 152px;
 }

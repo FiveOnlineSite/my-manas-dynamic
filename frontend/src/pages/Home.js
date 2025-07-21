@@ -30,6 +30,16 @@ const Home = () => {
   //     console.error("Failed to load meta data");
   //   }
   // };
+  //   const fetchMetaData = async () => {
+  //   try {
+  //     const res = await getRequest("/mastermetadata/home");
+  //     if (res.success && res.data.length > 0) {
+  //       setMeta(res.data[0]); // save first match
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to load meta data");
+  //   }
+  // };
 
   const fetchOtherData = async () => {
     try {
