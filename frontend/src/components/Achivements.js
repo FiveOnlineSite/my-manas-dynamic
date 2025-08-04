@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 
 const Achivements = ({achievements}) => {
   return (
-    <section className='achivements-section'>
-      <div className='container'>
-        <div className='row'>
-          <div className='col-lg-3'>
+    <section className="achivements-section">
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-3">
             {/* <h6 className="section-subtitle">ACHIEVEMENTS</h6> */}
 
-            <h2 className='section-title'>{achievements?.title}</h2>
+            <h2 className="section-title">{achievements?.title}</h2>
           </div>
           {/* <div className='col-lg-9'>
             <div className='row'>
@@ -159,41 +159,41 @@ const Achivements = ({achievements}) => {
             </div>
           </div> */}
 
-          <div className='col-lg-9'>
-  <div className='row'>
-    {achievements?.items?.map((item, index) => (
-      <div className='col-lg-6 mt-5 mt-lg-0' key={index}>
-        <div className='achivements-div'>
-          <img
-            src={item?.image?.url}
-            alt={item?.image?.altText || "achievement-img"}
-            className='img-rep'
-          />
-          <h4 className='banner-subtitle small-line-height text-start mt-4'>
-            {item?.title}
-          </h4>
-          <p className='paragraph bridge-para'>
-            <div
-              dangerouslySetInnerHTML={{ __html: item?.description }}
-            />
-          </p>
-        </div>
-      </div>
-    ))}
-  </div>
+          <div className="col-lg-9">
+            <div className="row">
+              {achievements?.items?.map((item, index) => (
+                <div className="col-lg-6 mt-5" key={index}>
+                  <div className="achivements-div">
+                    <img
+                      src={item?.image?.url}
+                      alt={item?.image?.altText || "achievement-img"}
+                      className="img-rep"
+                    />
+                    <h4 className="banner-subtitle small-line-height text-start mt-4">
+                      {item?.title}
+                    </h4>
+                    <p className="paragraph bridge-para">
+                      <div
+                        dangerouslySetInnerHTML={{ __html: item?.description }}
+                      />
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-  <div className='row mt-2'>
-    <h6 className='affialte-text'>
-      Affiliated to{" "}
-      <Link to='https://www.cbse.gov.in/cbsenew/cbse.html'>CBSE</Link>. 
-      Affiliation No: 1030824.{" "}
-      <Link to='https://drive.google.com/file/d/1ULxf8cAFtTGn202Y_SWUMQgBdxP8ZmF2/view'>
-        School Info
-      </Link>.
-    </h6>
-  </div>
-</div>
-
+            <div className="row mt-2">
+              <h6 className="affialte-text">
+                Affiliated to{" "}
+                <Link to="https://www.cbse.gov.in/cbsenew/cbse.html">CBSE</Link>
+                . Affiliation No: 1030824.{" "}
+                <Link to="https://drive.google.com/file/d/1ULxf8cAFtTGn202Y_SWUMQgBdxP8ZmF2/view">
+                  School Info
+                </Link>
+                .
+              </h6>
+            </div>
+          </div>
         </div>
       </div>
     </section>
