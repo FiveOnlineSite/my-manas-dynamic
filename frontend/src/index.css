@@ -1125,6 +1125,10 @@ nav .navbar-nav .nav-item a,
   width: 80%;
 }
 
+.documents-div ul{
+  list-style-type: disc !important;
+}
+
 .awardee-title {
   padding: 20px 20px 40px 20px;
   margin: 40px 0;
