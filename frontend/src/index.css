@@ -1127,6 +1127,7 @@ nav .navbar-nav .nav-item a,
 
 .documents-div ul{
   list-style-type: disc !important;
+  padding-left: 0 !important;
 }
 
 .awardee-title {
