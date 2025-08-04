@@ -1057,6 +1057,10 @@ nav .navbar-nav .nav-item a,
   width: 60%;
 }
 
+.shaping-content .paragraph p{
+  margin-bottom: 0 !important;
+}
+
 /* SCHOLARSHIP */
 
 .application {
