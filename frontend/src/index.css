@@ -203,7 +203,7 @@ nav .navbar-nav .nav-item a,
 }
 
 .banner-two .banner-text span{
-  color: var(--white-font);
+  color: var(--white-font) !important;
 }
 @media (max-width: 992px) {
   .mobile-banner {
